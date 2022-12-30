@@ -6,8 +6,8 @@
  * @flow strict-local
  */
 
-import React from 'react';
 import type {Node} from 'react';
+import React from 'react';
 import {
   SafeAreaView,
   ScrollView,
