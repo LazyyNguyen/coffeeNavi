@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:430393803232:android:6526eba5b9745b98cb6b85",
+        "mobilesdk_app_id": "1:430393803232:android:f425ee751eb7684bcb6b85",
         "android_client_info": {
-          "package_name": "com.coffeeNavi"
+          "package_name": "com.coffeenavi"
         }
       },
       "oauth_client": [
