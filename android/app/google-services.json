@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "430393803232",
+    "project_id": "coffeenavi-a46f6",
+    "storage_bucket": "coffeenavi-a46f6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:430393803232:android:6526eba5b9745b98cb6b85",
+        "android_client_info": {
+          "package_name": "com.coffeeNavi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "430393803232-7auf6lh7q2fgofajhh8k4j0npovdt7tm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWSVgs75q9VPwB6GIJa5SGHLV--xIXqAc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "430393803232-7auf6lh7q2fgofajhh8k4j0npovdt7tm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
