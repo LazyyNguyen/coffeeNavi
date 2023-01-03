@@ -3,12 +3,13 @@ import {Text, View, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Avt from './src/components/avt';
 import MyButton from './src/components/MyButton';
+import MyTextInput from './src/components/MyTextInput';
 
 const App = () => {
   return (
     <View style={styles.backG}>
+      <MyTextInput placeholder="Enter your email" title="UserName" />
       <MyButton lable="Fucking" size="large" type="secondary" />
-      <MyButton lable="Add" />
     </View>
   );
 };
