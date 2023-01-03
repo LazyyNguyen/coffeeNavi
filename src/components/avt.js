@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 
 const Avt = () => {
-  return <Image style={styles.img} source={require('../assets/imgs/2.png')} />;
+  return <Image style={styles.img} source={require('../assets/imgs/1.png')} />;
 };
 export default Avt;
 const styles = StyleSheet.create({
