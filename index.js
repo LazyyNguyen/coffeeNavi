@@ -4,6 +4,6 @@
 
 import {AppRegistry} from 'react-native';
 import {name as appName} from './app.json';
-import ExampleFlatList from './src/screens/Text';
+import Product from './src/screens/Product';
 
-AppRegistry.registerComponent(appName, () => ExampleFlatList);
+AppRegistry.registerComponent(appName, () => Product);
