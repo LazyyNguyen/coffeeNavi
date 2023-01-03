@@ -1,14 +1,33 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import {Text, View, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Avt from './src/components/avt';
 
 const App = () => {
   return (
-    <View>
-      <Text>App</Text>
-      <Icon name="free-code-camp" size={20} color="#000" />
+    <View style={styles.backG}>
+      <Text style={styles.text}>Na'vi</Text>
+      <View style={styles.avt}>
+        <Avt />
+      </View>
     </View>
   );
 };
 
-export default App;   
+const styles = StyleSheet.create({
+  backG: {
+    backgroundColor: 'red',
+  },
+  text: {
+    fontSize: 50,
+    fontFamily: 'PPMonumentExtended-Black',
+    color: 'white',
+  },
+  avt: {
+    width: 100,
+    height: 100,
+    borderRadius: 90,
+    backgroundColor: 'white',
+  },
+});
+export default App;
