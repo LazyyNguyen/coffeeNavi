@@ -20,7 +20,7 @@ const MyButton = ({onPress, type, size, lable}) => {
     backgroundColor: btnType === 'secondary' ? Colors.secondary : Colors.base,
   };
   return (
-    <TouchableOpacity style={btnStyle}>
+    <TouchableOpacity style={btnStyle} onPress={onPress}>
       <Text style={styles.lable}>{lable}</Text>
     </TouchableOpacity>
   );

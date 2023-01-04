@@ -4,7 +4,7 @@ import {Width} from '../assets/ScreenDimensions';
 
 const TYPES = ['base', 'rounder'];
 
-const MyTextInput = ({placeholder, type, onPress, title}) => {
+const MyTextInput = ({placeholder, type, onChangeText, title}) => {
   const inputType = TYPES.includes(type) ? type : 'base';
   const inputStyle = {
     height: 50,
@@ -21,6 +21,7 @@ const MyTextInput = ({placeholder, type, onPress, title}) => {
         <Text style={styles.title}>{title}</Text>
       </View>
       <TextInput
+        onChangeText={onChangeText}
         placeholderTextColor="#7C7A7A"
         placeholder={placeholder}
         style={inputStyle}
@@ -46,7 +47,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   title: {
-    color: '#333333',
+    color: 'white',
     fontFamily: 'PPMonumentExtended-Regular',
     fontSize: 15,
   },
