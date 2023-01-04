@@ -1,5 +1,13 @@
 import React, {useState} from 'react';
-import {FlatList, Image, StyleSheet, Text, TextInput, View} from 'react-native';
+import {
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 const Product = () => {
   const [data, setData] = useState([
@@ -53,6 +61,17 @@ const Product = () => {
           underlineColorAndroid="transparent"
           placeholder="Search Here"
         />
+        <View style={styles.textHeader}>
+          <View>
+            <Text style={styles.title}>Na'vi</Text>
+            <Text>25 product found</Text>
+          </View>
+          <View>
+            <TouchableOpacity style={styles.buttonAdd}>
+              <Text>Press Here</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
     );
   };
@@ -60,7 +79,7 @@ const Product = () => {
   // ----------------------- List product ----------------------
   const Item = ({image, title, description, price}) => {
     return (
-      <View style={styles.container}>
+      <View style={styles.containerItem}>
         <Image
           source={{
             uri: `${image}`,
@@ -88,6 +107,7 @@ const Product = () => {
   return (
     <View>
       <FlatList
+        style={styles.container}
         data={data}
         ListHeaderComponent={headerproduct}
         numColumns={2}
@@ -101,16 +121,23 @@ export default Product;
 
 const styles = StyleSheet.create({
   container: {
+    margin: 10,
+  },
+  containerItem: {
     margin: 'auto',
-    padding: 0,
     fontFamily: 'TimenewRomant',
     fontSize: 18,
-    width: 120,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+    width: '40%',
+    marginTop: 10,
   },
   imageItem: {
-    width: 100,
-    height: 100,
+    width: '90%',
+    height: 120,
     borderRadius: 5,
+    padding: '5%',
   },
   bodyItem: {
     marginTop: 5,
@@ -126,10 +153,29 @@ const styles = StyleSheet.create({
     borderColor: '#009688',
     backgroundColor: '#FFFFFF',
     borderRadius: 30,
-    width: '80%',
+    width: '90%',
+    marginLeft: '5%',
   },
   header: {
-    margin: 0,
+    // margin: 0,
     padding: 0,
+    width: '90%',
+    marginLeft: '5%',
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+  },
+  textHeader: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  buttonAdd: {
+    alignItems: 'center',
+    backgroundColor: '#DDDDDD',
+    padding: 10,
+    borderRadius: 10,
+    width: 100,
   },
 });
