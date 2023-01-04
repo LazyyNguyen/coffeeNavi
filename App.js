@@ -2,21 +2,25 @@ import React from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Avt from './src/components/avt';
+import MyButton from './src/components/MyButton';
+import MyTextInput from './src/components/MyTextInput';
 
 const App = () => {
   return (
     <View style={styles.backG}>
-      <Text style={styles.text}>Na'vi</Text>
-      <View style={styles.avt}>
-        <Avt />
-      </View>
+      <MyTextInput type='rounder' placeholder="Enter your email" title="UserName" />
+      <MyTextInput placeholder="Enter your password" title="Password" />
+      <MyButton lable="Sign In" size="large"/>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   backG: {
-    backgroundColor: 'red',
+    backgroundColor: '#ffffff',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   text: {
     fontSize: 50,
