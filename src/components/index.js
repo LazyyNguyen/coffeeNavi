@@ -6,7 +6,7 @@ const Test = () => {
   return (
     <View>
       <Text>hahaha</Text>
-      <Icon name="home" size={20}/>
+      <Icon name="home" size={20} />
     </View>
   );
 };
