@@ -3,12 +3,28 @@ import {NavigationContainer} from '@react-navigation/native';
 import * as React from 'react';
 import {Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
+
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import MyButton from '../components/MyButton';
+import MyTextInput from '../components/MyTextInput';
+import Details from '../screens/Details';
 import Product from '../screens/Product';
 
 function Feed() {
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       <Text>Feed!</Text>
+      <MyTextInput
+        title="UserName"
+        type="rounder"
+        placeholder="Enter Your ..."
+      />
+      <MyTextInput
+        title="UserName"
+        type="rounder"
+        placeholder="Enter Your ..."
+      />
+      <MyButton size="large" lable="Login" />
     </View>
   );
 }
@@ -34,13 +50,7 @@ function ManagementProduct() {
     </View>
   );
 }
-// function Products() {
-//   return (
-//     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-//       <Text>Products!</Text>
-//     </View>
-//   );
-// }
+const Stack = createNativeStackNavigator();
 
 const Tab = createBottomTabNavigator();
 function MyTabs() {
@@ -98,7 +108,13 @@ function MyTabs() {
 export default function Navigation() {
   return (
     <NavigationContainer>
-      <MyTabs />
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}>
+        <Stack.Screen name="Tab" component={MyTabs} />
+        <Stack.Screen name="Details" component={Details} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }

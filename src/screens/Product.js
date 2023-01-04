@@ -9,39 +9,55 @@ import {
   View,
 } from 'react-native';
 
-const Product = () => {
+const Product = ({navigation}) => {
   const [data, setData] = useState([
     {
       id: 1,
       title: 'Naa Nii',
-      description: 'Followed by 15k',
+      description:
+        'Cà phê là một mặt hàng xuất khẩu lớn: đứng đầu trong số các mặt hàng xuất khẩu nông nghiệp tại nhiều quốc gia và là một trong những mặt hàng xuất khẩu nông nghiệp hợp pháp lớn nhất trên thế giới.[4][9] Đây cũng là loại hàng hóa có giá trị xuất khẩu nhất của các quốc gia đang phát triển. Cũng nhờ vậy, thị trường Read more',
       price: '47',
       image:
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6wMUznmg4JxQZECDFV5z4e60ghw62ynKyBQ&usqp=CAU',
+      quality: 10,
+      categories: 'food',
+      size: 'L',
     },
     {
       id: 2,
       title: 'Naa Nii',
-      description: 'Followed by 15k',
+      description:
+        'Cà phê là một mặt hàng xuất khẩu lớn: đứng đầu trong số các mặt hàng xuất khẩu nông nghiệp tại nhiều quốc gia và là một trong những mặt hàng xuất khẩu nông nghiệp hợp pháp lớn nhất trên thế giới.[4][9] Đây cũng là loại hàng hóa có giá trị xuất khẩu nhất của các quốc gia đang phát triển. Cũng nhờ vậy, thị trường Read more',
       price: '47',
       image:
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6wMUznmg4JxQZECDFV5z4e60ghw62ynKyBQ&usqp=CAU',
+      quality: 11,
+      categories: 'food',
+      size: 'L',
     },
     {
-      id: 2,
+      id: 3,
       title: 'Naa Nii',
-      description: 'Followed by 15k',
+      description:
+        'Cà phê là một mặt hàng xuất khẩu lớn: đứng đầu trong số các mặt hàng xuất khẩu nông nghiệp tại nhiều quốc gia và là một trong những mặt hàng xuất khẩu nông nghiệp hợp pháp lớn nhất trên thế giới.[4][9] Đây cũng là loại hàng hóa có giá trị xuất khẩu nhất của các quốc gia đang phát triển. Cũng nhờ vậy, thị trường Read more',
       price: '47',
       image:
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6wMUznmg4JxQZECDFV5z4e60ghw62ynKyBQ&usqp=CAU',
+      quality: 12,
+      categories: 'food',
+      size: 'L',
     },
     {
-      id: 2,
+      id: 4,
       title: 'Naa Nii',
-      description: 'Followed by 15k',
+      description:
+        'Cà phê là một mặt hàng xuất khẩu lớn: đứng đầu trong số các mặt hàng xuất khẩu nông nghiệp tại nhiều quốc gia và là một trong những mặt hàng xuất khẩu nông nghiệp hợp pháp lớn nhất trên thế giới.[4][9] Đây cũng là loại hàng hóa có giá trị xuất khẩu nhất của các quốc gia đang phát triển. Cũng nhờ vậy, thị trường Read more',
       price: '47',
       image:
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6wMUznmg4JxQZECDFV5z4e60ghw62ynKyBQ&usqp=CAU',
+      quality: 14,
+      categories: 'food',
+      size: 'L',
     },
   ]);
   // ------------------------ Search function ----------------------
@@ -68,7 +84,7 @@ const Product = () => {
           </View>
           <View>
             <TouchableOpacity style={styles.buttonAdd}>
-              <Text>Press Here</Text>
+              <Text style={{fontWeight: 'bold'}}>Add New</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -77,43 +93,36 @@ const Product = () => {
   };
 
   // ----------------------- List product ----------------------
-  const Item = ({image, title, description, price}) => {
+  const Item = ({item}) => {
     return (
-      <View style={styles.containerItem}>
+      <TouchableOpacity
+        style={styles.containerItem}
+        onPress={() => navigation.navigate('Details', {item})}>
         <Image
           source={{
-            uri: `${image}`,
+            uri: `${item.image}`,
           }}
           style={styles.imageItem}
         />
         <View style={styles.bodyItem}>
-          <Text style={styles.titleItem}>{title}</Text>
-          <Text styles={styles.descriptionItem}>{description}</Text>
-          <Text style={styles.priceItems}>${price}</Text>
+          <Text style={styles.titleItem}>{item.title}</Text>
+          <Text styles={styles.descriptionItem}>{item.description}</Text>
+          <Text style={styles.priceItems}>${item.price}</Text>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 
-  const renderItem = ({item}) => (
-    <Item
-      titile={item.title}
-      image={item.image}
-      description={item.description}
-      price={item.price}
-    />
-  );
-
   return (
-    <View>
-      <FlatList
-        style={styles.container}
-        data={data}
-        ListHeaderComponent={headerproduct}
-        numColumns={2}
-        renderItem={renderItem}
-      />
-    </View>
+    <FlatList
+      style={styles.container}
+      data={data}
+      ListHeaderComponent={headerproduct}
+      showsVerticalScrollIndicator={false}
+      numColumns={2}
+      renderItem={({item}) => <Item item={item} />}
+      keyExtractor={item => item.id}
+    />
   );
 };
 
@@ -121,29 +130,30 @@ export default Product;
 
 const styles = StyleSheet.create({
   container: {
-    margin: 10,
+    // margin: 10,
+    backgroundColor: '#ffff',
   },
   containerItem: {
-    margin: 'auto',
-    fontFamily: 'TimenewRomant',
+    margin: 20,
     fontSize: 18,
-    justifyContent: 'center',
-    alignItems: 'center',
     flex: 1,
-    width: '40%',
-    marginTop: 10,
+    borderWidth: 0.5,
+    borderColor: 'thistle',
+    borderRadius: 15,
   },
   imageItem: {
     width: '90%',
     height: 120,
     borderRadius: 5,
-    padding: '5%',
+    margin: 7,
   },
   bodyItem: {
-    marginTop: 5,
+    marginLeft: 10,
+    marginBottom: 5,
   },
   titleItem: {
-    // fontWeight: 600,
+    fontWeight: 'bold',
+    fontSize: 20,
   },
   textInputStyle: {
     height: 40,
@@ -164,7 +174,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 28,
-    fontWeight: 'bold',
+    fontFamily: 'PPMonumentExtended-Black',
   },
   textHeader: {
     display: 'flex',
@@ -173,9 +183,13 @@ const styles = StyleSheet.create({
   },
   buttonAdd: {
     alignItems: 'center',
-    backgroundColor: '#DDDDDD',
+    backgroundColor: '#CCFF00',
     padding: 10,
     borderRadius: 10,
     width: 100,
+    marginTop: 7,
+  },
+  priceItems: {
+    fontWeight: 'bold',
   },
 });
