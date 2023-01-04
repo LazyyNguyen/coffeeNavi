@@ -3,12 +3,26 @@ import {NavigationContainer} from '@react-navigation/native';
 import * as React from 'react';
 import {Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
+
+import MyButton from '../components/MyButton';
+import MyTextInput from '../components/MyTextInput';
 import Product from '../screens/Product';
 
 function Feed() {
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       <Text>Feed!</Text>
+      <MyTextInput
+        title="UserName"
+        type="rounder"
+        placeholder="Enter Your ..."
+      />
+      <MyTextInput
+        title="UserName"
+        type="rounder"
+        placeholder="Enter Your ..."
+      />
+      <MyButton size="large" lable="Login" />
     </View>
   );
 }

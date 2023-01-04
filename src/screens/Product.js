@@ -1,13 +1,6 @@
 import React, {useState} from 'react';
-import {
-  FlatList,
-  Image,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {FlatList, Image, StyleSheet, Text, TextInput, View} from 'react-native';
+import MyButton from '../components/MyButton';
 
 const Product = () => {
   const [data, setData] = useState([
@@ -67,9 +60,10 @@ const Product = () => {
             <Text>25 product found</Text>
           </View>
           <View>
-            <TouchableOpacity style={styles.buttonAdd}>
+            {/* <TouchableOpacity style={styles.buttonAdd}>
               <Text>Press Here</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
+            <MyButton type="base" size="small" lable="Add" />
           </View>
         </View>
       </View>

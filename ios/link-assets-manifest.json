@@ -1,0 +1,29 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/fonts/PPMonumentExtended-Black.otf",
+      "sha1": "3bfc07d67d44ba7994f4ab19a67d220f363e3ab8"
+    },
+    {
+      "path": "src/assets/fonts/PPMonumentExtended-BlackItalic.otf",
+      "sha1": "964c53b32835211638a2d607521dd21dbef8cc25"
+    },
+    {
+      "path": "src/assets/fonts/PPMonumentExtended-Light.otf",
+      "sha1": "ae1e85ae75bb512f02b013604c40215dec0618f5"
+    },
+    {
+      "path": "src/assets/fonts/PPMonumentExtended-LightItalic.otf",
+      "sha1": "f8379e1b5b470032b1a6a65529813ad8b09a6755"
+    },
+    {
+      "path": "src/assets/fonts/PPMonumentExtended-Regular.otf",
+      "sha1": "9a253b43ac24684b806c315c1d17c06a4e18aff8"
+    },
+    {
+      "path": "src/assets/fonts/PPMonumentExtended-RegularItalic.otf",
+      "sha1": "560c2bda58ebab15c5f0d25cc24045b230c01f8b"
+    }
+  ]
+}
