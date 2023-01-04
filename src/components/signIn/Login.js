@@ -1,17 +1,14 @@
 import React, {useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import {StyleSheet, Text, TextInput, View, Button} from 'react-native';
-const SignUp = ({navigation}) => {
+const Login = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const handleSignUp = async () => {
+  const handleLogin = async () => {
     console.log('requesting');
     try {
-      const result = await auth().createUserWithEmailAndPassword(
-        email,
-        password,
-      );
+      const result = await auth().signInWithEmailAndPassword(email, password);
       console.log('result', result);
     } catch (error) {
       console.log('error', {...error});
@@ -21,32 +18,28 @@ const SignUp = ({navigation}) => {
   };
   return (
     <View style={styles.container}>
-      <Text>Sign Up</Text>
+      <Text>Login</Text>
       {errorMessage && <Text style={{color: 'red'}}>{errorMessage}</Text>}
       <TextInput
-        placeholder="Email"
-        autoCapitalize="none"
         style={styles.textInput}
+        placeholder="Email"
         onChangeText={e => setEmail(e)}
         value={email}
       />
       <TextInput
         secureTextEntry
-        placeholder="Password"
-        autoCapitalize="none"
         style={styles.textInput}
+        placeholder="Password"
         onChangeText={p => setPassword(p)}
         value={password}
       />
-      <Button title="Sign Up" onPress={handleSignUp} />
-      <Button
-        title="Already have an account? Login"
-        onPress={() => navigation.navigate('Login')}
-      />
+      <Button title="Login" onPress={handleLogin} />
+      <Text>{email}</Text>
+      <Text>{password}</Text>
     </View>
   );
 };
-export default SignUp;
+export default Login;
 const styles = StyleSheet.create({
   container: {
     flex: 1,

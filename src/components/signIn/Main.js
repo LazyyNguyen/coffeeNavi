@@ -1,21 +1,43 @@
-import React from 'react';
-import firebase from 'react-native-firebase';
-import {StyleSheet, Platform, Image, Text, View} from 'react-native';
-export default class Main extends React.Component {
-  state = {currentUser: null};
-  componentDidMount() {
-    const {currentUser} = firebase.auth();
-    this.setState({currentUser});
+import React, {useEffect, useState} from 'react';
+import auth from '@react-native-firebase/auth';
+import {StyleSheet, Platform, Image, Text, View, Button} from 'react-native';
+const Main = () => {
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState();
+
+  // Handle user state changes
+  function onAuthStateChanged(user) {
+    setUser(user);
+    if (initializing) setInitializing(false);
   }
-  render() {
-    const {currentUser} = this.state;
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
+  if (initializing) return null;
+
+  if (!user) {
     return (
-      <View style={styles.container}>
-        <Text>Hi {currentUser && currentUser.email}!</Text>
+      <View>
+        <Text>Login</Text>
       </View>
     );
   }
-}
+  const handleLogout = () => {
+    auth()
+      .signOut()
+      .then(() => console.log('User signed out!'));
+  };
+  return (
+    <View style={styles.container}>
+      <Text>Hi {user && user.email}!</Text>
+      <Button title="Log out" onPress={handleLogout} />
+    </View>
+  );
+};
+export default Main;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
