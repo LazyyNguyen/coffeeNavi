@@ -1,16 +1,23 @@
 import React, {useState} from 'react';
-import firebase from 'react-native-firebase';
+import auth from '@react-native-firebase/auth';
 import {StyleSheet, Text, TextInput, View, Button} from 'react-native';
-const SignUp = () => {
+const SignUp = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const handleSignUp = () => {
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then(() => this.navigation.navigate('Main'))
-      .catch(error => setErrorMessage(error.message));
+  const handleSignUp = async () => {
+    console.log('requesting');
+    try {
+      const result = await auth().createUserWithEmailAndPassword(
+        email,
+        password,
+      );
+      console.log('result', result);
+    } catch (error) {
+      console.log('error', {...error});
+    } finally {
+      console.log('finnaly');
+    }
   };
   return (
     <View style={styles.container}>
@@ -34,7 +41,7 @@ const SignUp = () => {
       <Button title="Sign Up" onPress={handleSignUp} />
       <Button
         title="Already have an account? Login"
-        onPress={() => this.props.navigation.navigate('Login')}
+        onPress={() => navigation.navigate('Login')}
       />
     </View>
   );

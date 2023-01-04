@@ -5,9 +5,10 @@ import {Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 
 import MyButton from '../components/MyButton';
-import MyTextInput from '../components/MyTextInput';
-import Product from '../screens/Product';
-
+import Loading from '../components/Loading';
+import Main from '../components/signIn/Main';
+import SignUp from '../components/signIn/SignUp';
+import Login from '../components/signIn/Login';
 function Feed() {
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
@@ -60,7 +61,7 @@ const Tab = createBottomTabNavigator();
 function MyTabs() {
   return (
     <Tab.Navigator
-      initialRouteName="Feed"
+      initialRouteName="Loading"
       screenOptions={{
         tabBarActiveTintColor: '#e91e63',
       }}>
@@ -103,6 +104,38 @@ function MyTabs() {
         options={{
           tabBarLabel: 'Profile',
           tabBarIcon: () => <Icon name="user" size={20} />,
+        }}
+      />
+      <Tab.Screen
+        name="Loading"
+        component={Loading}
+        options={{
+          tabBarButton: props => null, //like this
+        }}
+      />
+      <Tab.Screen
+        name="Main"
+        component={Main}
+        options={{
+          tabBarButton: props => null, //like this
+        }}
+      />
+      <Tab.Screen
+        name="SignUp"
+        component={SignUp}
+        options={{
+          tabBarButton: props => null, //like this
+        }}
+      />
+      <Tab.Screen
+        name="Login"
+        component={Login}
+        options={{
+          tabBarLabel: () => {
+            return null;
+          },
+          tabBarButton: props => null, //like this
+          headerShown: false,
         }}
       />
     </Tab.Navigator>
