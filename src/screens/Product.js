@@ -106,13 +106,12 @@ const Product = ({navigation}) => {
         />
         <View style={styles.bodyItem}>
           <Text style={styles.titleItem}>{item.title}</Text>
-          <Text styles={styles.descriptionItem}>{item.description}</Text>
+          <Text styles={styles.descriptionItem}>{item.quality}</Text>
           <Text style={styles.priceItems}>${item.price}</Text>
         </View>
       </TouchableOpacity>
     );
   };
-
   return (
     <FlatList
       style={styles.container}
@@ -140,6 +139,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: 'thistle',
     borderRadius: 15,
+    alignItems: 'center',
   },
   imageItem: {
     width: '90%',
@@ -148,8 +148,9 @@ const styles = StyleSheet.create({
     margin: 7,
   },
   bodyItem: {
-    marginLeft: 10,
+    // marginLeft: 10,
     marginBottom: 5,
+    alignItems: 'center',
   },
   titleItem: {
     fontWeight: 'bold',
@@ -192,4 +193,7 @@ const styles = StyleSheet.create({
   priceItems: {
     fontWeight: 'bold',
   },
+  // descriptionItem: {
+
+  // },
 });

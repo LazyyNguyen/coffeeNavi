@@ -1,13 +1,7 @@
 import React, {useState} from 'react';
-<<<<<<< HEAD
-import {Button, StyleSheet, Text, TextInput, View} from 'react-native';
-import firebase from 'react-native-firebase';
-const SignUp = () => {
-=======
 import auth from '@react-native-firebase/auth';
 import {StyleSheet, Text, TextInput, View, Button} from 'react-native';
 const SignUp = ({navigation}) => {
->>>>>>> 0869a364333ff4f8e7efd16255b7edefb4d1ec66
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');

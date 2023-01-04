@@ -1,16 +1,6 @@
-<<<<<<< HEAD
-import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import firebase from 'react-native-firebase';
-export default class Main extends React.Component {
-  state = {currentUser: null};
-  componentDidMount() {
-    const {currentUser} = firebase.auth();
-    this.setState({currentUser});
-=======
-import React, {useEffect, useState} from 'react';
 import auth from '@react-native-firebase/auth';
-import {StyleSheet, Platform, Image, Text, View, Button} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Button, StyleSheet, Text, View} from 'react-native';
 const Main = () => {
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
@@ -19,7 +9,6 @@ const Main = () => {
   function onAuthStateChanged(user) {
     setUser(user);
     if (initializing) setInitializing(false);
->>>>>>> 0869a364333ff4f8e7efd16255b7edefb4d1ec66
   }
 
   useEffect(() => {

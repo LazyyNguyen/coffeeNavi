@@ -5,12 +5,12 @@ import {Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import MyButton from '../components/MyButton';
 import Loading from '../components/Loading';
+import MyButton from '../components/MyButton';
+import MyTextInput from '../components/MyTextInput';
+import Login from '../components/signIn/Login';
 import Main from '../components/signIn/Main';
 import SignUp from '../components/signIn/SignUp';
-import Login from '../components/signIn/Login';
-import MyTextInput from '../components/MyTextInput';
 import Details from '../screens/Details';
 import Product from '../screens/Product';
 function Feed() {
