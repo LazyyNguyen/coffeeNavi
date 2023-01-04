@@ -4,10 +4,24 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Feather';
 
+import MyTextInput from '../components/MyTextInput';
+import MyButton from '../components/MyButton';
+
 function Feed() {
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       <Text>Feed!</Text>
+      <MyTextInput
+        title="UserName"
+        type="rounder"
+        placeholder="Enter Your ..."
+      />
+      <MyTextInput
+        title="UserName"
+        type="rounder"
+        placeholder="Enter Your ..."
+      />
+      <MyButton size="large" lable="Login" />
     </View>
   );
 }
