@@ -8,9 +8,13 @@ import MyTextInput from './src/components/MyTextInput';
 const App = () => {
   return (
     <View style={styles.backG}>
-      <MyTextInput type='rounder' placeholder="Enter your email" title="UserName" />
+      <MyTextInput
+        type="rounder"
+        placeholder="Enter your email"
+        title="UserName"
+      />
       <MyTextInput placeholder="Enter your password" title="Password" />
-      <MyButton lable="Sign In" size="large"/>
+      <MyButton lable="Sign In" size="large" />
     </View>
   );
 };
