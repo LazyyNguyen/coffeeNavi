@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
 import auth from '@react-native-firebase/auth';
-import {StyleSheet, Text, View, Button} from 'react-native';
+import React, {useState} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 
 import MyButton from '../MyButton';
 import MyTextInput from '../MyTextInput';
@@ -49,7 +49,6 @@ const Login = ({navigation}) => {
         title="Password"
       />
       <MyButton lable="Login" onPress={handleLogin} size="large" />
-
     </View>
   );
 };

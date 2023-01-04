@@ -1,15 +1,18 @@
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {NavigationContainer} from '@react-navigation/native';
 import * as React from 'react';
 import {Text, View} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Feather';
 
-import MyTextInput from '../components/MyTextInput';
-import MyButton from '../components/MyButton';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Loading from '../components/Loading';
+import MyButton from '../components/MyButton';
+import MyTextInput from '../components/MyTextInput';
+import Login from '../components/signIn/Login';
 import Main from '../components/signIn/Main';
 import SignUp from '../components/signIn/SignUp';
-import Login from '../components/signIn/Login';
+import Details from '../screens/Details';
+import Product from '../screens/Product';
 function Feed() {
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
@@ -50,13 +53,7 @@ function ManagementProduct() {
     </View>
   );
 }
-function Products() {
-  return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>Products!</Text>
-    </View>
-  );
-}
+const Stack = createNativeStackNavigator();
 
 const Tab = createBottomTabNavigator();
 function MyTabs() {
@@ -84,8 +81,9 @@ function MyTabs() {
       />
       <Tab.Screen
         name="Products"
-        component={Products}
+        component={Product}
         options={{
+          headerShown: false,
           tabBarLabel: 'Updates',
           tabBarIcon: () => <Icon name="coffee" size={20} />,
         }}
@@ -145,7 +143,13 @@ function MyTabs() {
 export default function Navigation() {
   return (
     <NavigationContainer>
-      <MyTabs />
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}>
+        <Stack.Screen name="Tab" component={MyTabs} />
+        <Stack.Screen name="Details" component={Details} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }

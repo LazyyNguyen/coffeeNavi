@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react';
 import auth from '@react-native-firebase/auth';
-import {View, Text, ActivityIndicator, StyleSheet} from 'react-native';
+import React, {useEffect} from 'react';
+import {ActivityIndicator, StyleSheet, Text, View} from 'react-native';
 const Loading = ({navigation}) => {
   useEffect(() => {
     auth().onAuthStateChanged(user => {

@@ -1,20 +1,6 @@
-import {types} from '@babel/core';
 import React from 'react';
-import {
-  SafeAreaView,
-  View,
-  StatusBar,
-  Text,
-  TextInput,
-  FlatList,
-  Dimensions,
-  StyleSheet,
-  Image,
-  Pressable,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
-import {Width, Height} from '../assets/ScreenDimensions';
+import {StyleSheet, Text, TextInput, View} from 'react-native';
+import {Width} from '../assets/ScreenDimensions';
 
 const TYPES = ['base', 'rounder'];
 

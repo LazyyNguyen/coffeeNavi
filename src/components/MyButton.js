@@ -1,20 +1,7 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  View,
-  StatusBar,
-  Text,
-  TextInput,
-  FlatList,
-  Dimensions,
-  StyleSheet,
-  Image,
-  Pressable,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {Width} from '../assets/ScreenDimensions';
 import {Colors} from '../assets/themes/Colors';
-import {Width, Height} from '../assets/ScreenDimensions';
 const TYPES = ['base', 'secondary'];
 const SIZES = ['small', 'medium', 'large'];
 

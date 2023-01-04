@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
 import auth from '@react-native-firebase/auth';
-import {StyleSheet, Platform, Image, Text, View, Button} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Button, StyleSheet, Text, View} from 'react-native';
 const Main = () => {
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
