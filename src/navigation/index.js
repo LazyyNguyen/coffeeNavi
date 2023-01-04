@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/Feather';
 
 import MyTextInput from '../components/MyTextInput';
 import MyButton from '../components/MyButton';
+import Home from '../screens/Home';
 
 function Feed() {
   return (
@@ -64,9 +65,10 @@ function MyTabs() {
         tabBarActiveTintColor: '#e91e63',
       }}>
       <Tab.Screen
-        name="Feed"
-        component={Feed}
+        name="Home"
+        component={Home}
         options={{
+          headerShown: false,
           tabBarLabel: 'Home',
           tabBarIcon: () => <Icon name="home" size={20} />,
         }}

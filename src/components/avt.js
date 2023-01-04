@@ -14,8 +14,15 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-const Avt = () => {
-  return <Image style={styles.img} source={require('../assets/imgs/1.png')} />;
+const Avt = ({avt}) => {
+  return (
+    <Image
+      style={styles.img}
+      source={{
+        uri: `${avt}`,
+      }}
+    />
+  );
 };
 export default Avt;
 const styles = StyleSheet.create({
@@ -23,6 +30,7 @@ const styles = StyleSheet.create({
   img: {
     width: '100%',
     height: '100%',
+    resizeMode: 'contain',
     borderRadius: 90,
   },
 });
