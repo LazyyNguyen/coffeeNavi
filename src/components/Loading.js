@@ -4,7 +4,7 @@ import {View, Text, ActivityIndicator, StyleSheet} from 'react-native';
 const Loading = ({navigation}) => {
   useEffect(() => {
     auth().onAuthStateChanged(user => {
-      navigation.navigate(user ? 'Main' : 'Login');
+      navigation.navigate(user ? 'Feed' : 'Login');
     });
   }, []);
   return (

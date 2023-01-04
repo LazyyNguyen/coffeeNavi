@@ -131,7 +131,11 @@ function MyTabs() {
         name="Login"
         component={Login}
         options={{
+          tabBarLabel: () => {
+            return null;
+          },
           tabBarButton: props => null, //like this
+          headerShown: false,
         }}
       />
     </Tab.Navigator>

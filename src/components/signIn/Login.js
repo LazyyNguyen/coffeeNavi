@@ -1,6 +1,9 @@
 import React, {useState} from 'react';
 import auth from '@react-native-firebase/auth';
-import {StyleSheet, Text, TextInput, View, Button} from 'react-native';
+import {StyleSheet, Text, View, Button} from 'react-native';
+
+import MyButton from '../MyButton';
+import MyTextInput from '../MyTextInput';
 const Login = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -18,39 +21,48 @@ const Login = ({navigation}) => {
   };
   return (
     <View style={styles.container}>
-      <Text>Login</Text>
+      <View
+        style={{
+          textAlign: 'left',
+          fontSize: 30,
+          width: '95%',
+          marginBottom: 15,
+        }}>
+        <Text style={styles.title}>Hey!</Text>
+        <View style={{flexDirection: 'row'}}>
+          <Text style={styles.title}>Welcome to </Text>
+          <Text style={[styles.title, {fontWeight: '700'}]}>Na'vi</Text>
+        </View>
+      </View>
       {errorMessage && <Text style={{color: 'red'}}>{errorMessage}</Text>}
-      <TextInput
-        style={styles.textInput}
+      <MyTextInput
         placeholder="Email"
         onChangeText={e => setEmail(e)}
         value={email}
+        title="Email"
       />
-      <TextInput
+      <MyTextInput
         secureTextEntry
-        style={styles.textInput}
         placeholder="Password"
         onChangeText={p => setPassword(p)}
         value={password}
+        title="Password"
       />
-      <Button title="Login" onPress={handleLogin} />
-      <Text>{email}</Text>
-      <Text>{password}</Text>
+      <MyButton lable="Login" onPress={handleLogin} size="large" />
+
     </View>
   );
 };
 export default Login;
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#552619',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  textInput: {
-    height: 40,
-    width: '90%',
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginTop: 8,
+  title: {
+    fontSize: 40,
+    color: '#FFB067',
   },
 });
