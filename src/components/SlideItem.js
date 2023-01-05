@@ -15,13 +15,20 @@ import {
 import React from 'react';
 import {Width, Height} from '../assets/ScreenDimensions';
 
+
 const SlideItem = ({data}) => {
   return (
     <View style={styles.container}>
       <Image style={styles.img} source={require('../assets/imgs/image3.png')} />
       <View style={styles.totalContainer}>
         <Text style={styles.total}>
-          {data.title === 'Sells' ? 'VND' : 'User'}
+          {data.title === 'Sells'
+            ? 'VND'
+            : data.title === 'Order'
+            ? 'Order'
+            : data.title === 'Product'
+            ? 'Product'
+            : 'User'}
         </Text>
         <Text style={styles.total}>{data.total}</Text>
       </View>
@@ -34,7 +41,7 @@ export default SlideItem;
 
 const styles = StyleSheet.create({
   container: {
-    width: Width - 30,
+    width: Width - 40,
     height: 170,
     backgroundColor: '#CCFF00',
     borderRadius: 15,

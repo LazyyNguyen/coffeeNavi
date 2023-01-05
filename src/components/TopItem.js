@@ -14,20 +14,20 @@ import {
 } from 'react-native';
 import React from 'react';
 
-const TopItem = () => {
+const TopItem = ({data, color}) => {
   return (
     <View style={styles.container}>
       <View style={styles.image}>
         <Image
           style={{width: '100%', height: '100%', borderRadius: 15}}
           source={{
-            uri: 'https://product.hstatic.net/200000264775/product/ca_phe_ae27c2fffbc4489884c2efbef3d639bb_master.jpg',
+            uri: `${data.img}`,
           }}
         />
       </View>
-      <View style={styles.info}>
-        <Text style={styles.total}>75cups</Text>
-        <Text style={styles.name}>Americano</Text>
+      <View style={[styles.info, {backgroundColor: color}]}>
+        <Text style={styles.total}>{data.quantity}cups</Text>
+        <Text style={styles.name}>{data.name}</Text>
       </View>
     </View>
   );
@@ -55,7 +55,8 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'flex-end',
-    backgroundColor: '#FAB2FC',
+    // backgroundColor: '#FAB2FC',
+    opacity: 0.8,
     position: 'relative',
   },
   total: {
