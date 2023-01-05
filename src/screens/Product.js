@@ -60,6 +60,7 @@ const Product = ({navigation}) => {
       size: 'L',
     },
   ]);
+
   // ------------------------ Search function ----------------------
   const [search, setSearch] = useState('');
   const searchFilterFunction = () => {
@@ -67,7 +68,7 @@ const Product = ({navigation}) => {
   };
 
   //--------------- Header ----------------------
-  const headerproduct = () => {
+  const headerproduct = ({item}) => {
     return (
       <View style={styles.header}>
         <TextInput
@@ -83,7 +84,9 @@ const Product = ({navigation}) => {
             <Text>25 product found</Text>
           </View>
           <View>
-            <TouchableOpacity style={styles.buttonAdd}>
+            <TouchableOpacity
+              style={styles.buttonAdd}
+              onPress={() => navigation.navigate('addNew', {item})}>
               <Text style={{fontWeight: 'bold'}}>Add New</Text>
             </TouchableOpacity>
           </View>

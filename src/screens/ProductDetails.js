@@ -1,12 +1,53 @@
+import {deleteDoc, doc} from '@react-native-firebase/firestore';
 import React from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {
+  Alert,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MyButton from '../components/MyButton';
+// import db from '../firebase/firebase.config';
 
 const Details = ({navigation, route}) => {
   const {item} = route.params || {};
+
+  // ------------------- Delete Item--------------------
+  const showConfirmDialog = () => {
+    return Alert.alert(
+      'Are your sure?',
+      'Are you sure you want to Delete this User? This action cannot be undone!',
+      [
+        {
+          text: 'Yes',
+          onPress: () => {
+            deleteItem();
+          },
+        },
+        {
+          text: 'No',
+        },
+      ],
+    );
+  };
+
+  async function deleteItem() {
+    const ref = doc({item}, route.params.item.id);
+    await deleteDoc(ref)
+      .then(() => {
+        navigation.navigate('Product');
+        alert('Deleted Item Successfully!');
+      })
+      .catch(error => {
+        alert(error.message);
+      });
+  }
+
   return (
     <SafeAreaView style={{backgroundColor: 'white'}}>
       <View style={styles.header}>
@@ -40,12 +81,18 @@ const Details = ({navigation, route}) => {
         </ScrollView>
         <View>
           <MyButton
-            onPress={() => navigation.navigate('ManagementRevenue')}
+            onPress={() => navigation.navigate('Update', {item})}
             lable="Update"></MyButton>
         </View>
-        <View style={{marginTop: 10, marginBottom: 10}}>
-          <MyButton lable="Delete" />
-        </View>
+        <TouchableOpacity style={{marginTop: 10, marginBottom: 10}}>
+          <MyButton
+            lable="Delete"
+            type="secondary"
+            onPress={() => {
+              showConfirmDialog();
+            }}
+          />
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );

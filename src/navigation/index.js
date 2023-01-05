@@ -11,8 +11,10 @@ import MyTextInput from '../components/MyTextInput';
 import Login from '../components/signIn/Login';
 import Main from '../components/signIn/Main';
 import SignUp from '../components/signIn/SignUp';
-import Details from '../screens/Details';
+import CreateProduct from '../screens/CreateProduct';
 import Product from '../screens/Product';
+import Details from '../screens/ProductDetails';
+import UpdateProduct from '../screens/UpdateProduct';
 function Feed() {
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
@@ -149,6 +151,8 @@ export default function Navigation() {
         }}>
         <Stack.Screen name="Tab" component={MyTabs} />
         <Stack.Screen name="Details" component={Details} />
+        <Stack.Screen name="addNew" component={CreateProduct} />
+        <Stack.Screen name="Update" component={UpdateProduct} />
       </Stack.Navigator>
     </NavigationContainer>
   );
