@@ -5,7 +5,7 @@ import {Colors} from '../assets/themes/Colors';
 const TYPES = ['base', 'secondary'];
 const SIZES = ['small', 'medium', 'large'];
 
-const MyButton = ({onPress, type, size, lable}) => {
+const MyButton = ({onPress, type, size, lable, extraStyle}) => {
   const btnSize = SIZES.includes(size) ? size : 'small';
   const btnType = TYPES.includes(type) ? type : 'base';
 
@@ -20,7 +20,7 @@ const MyButton = ({onPress, type, size, lable}) => {
     backgroundColor: btnType === 'secondary' ? Colors.secondary : Colors.base,
   };
   return (
-    <TouchableOpacity style={btnStyle} onPress={onPress}>
+    <TouchableOpacity style={[btnStyle, extraStyle]} onPress={onPress}>
       <Text style={styles.lable}>{lable}</Text>
     </TouchableOpacity>
   );

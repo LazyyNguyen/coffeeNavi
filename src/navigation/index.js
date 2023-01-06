@@ -9,12 +9,12 @@ import Loading from '../components/Loading';
 import MyButton from '../components/MyButton';
 import MyTextInput from '../components/MyTextInput';
 import Login from '../components/signIn/Login';
-import Main from '../components/signIn/Main';
 import SignUp from '../components/signIn/SignUp';
 import CreateProduct from '../screens/CreateProduct';
 import Product from '../screens/Product';
 import Details from '../screens/ProductDetails';
 import UpdateProduct from '../screens/UpdateProduct';
+import Profile from '../screens/Profile';
 function Feed() {
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
@@ -34,13 +34,6 @@ function Feed() {
   );
 }
 
-function Profile() {
-  return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>Profile!</Text>
-    </View>
-  );
-}
 function ManagementRevenue() {
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
@@ -104,18 +97,12 @@ function MyTabs() {
         options={{
           tabBarLabel: 'Profile',
           tabBarIcon: () => <Icon name="user" size={20} />,
+          headerShown: false,
         }}
       />
       <Tab.Screen
         name="Loading"
         component={Loading}
-        options={{
-          tabBarButton: props => null, //like this
-        }}
-      />
-      <Tab.Screen
-        name="Main"
-        component={Main}
         options={{
           tabBarButton: props => null, //like this
         }}

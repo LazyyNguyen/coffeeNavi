@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import useFirestoreCollection from '../hooks/useCRUD';
+import useFirestoreCollection from '../hooks/useFirestoreCollection';
 
 const Product = ({navigation}) => {
   // const [data, setData] = useState([
@@ -129,7 +129,7 @@ const Product = ({navigation}) => {
   // --------------- show data----------------------------
   useEffect(() => {
     refresh();
-  });
+  }, []);
 
   if (loading) {
     return <Text>Loading...</Text>;
