@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import firestore from '@react-native-firebase/firestore';
+import React, {useEffect, useState} from 'react';
 import {
   FlatList,
   Image,
@@ -8,61 +9,70 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import useFirestoreCollection from '../hooks/useCRUD';
 
 const Product = ({navigation}) => {
-  const [data, setData] = useState([
-    {
-      id: 1,
-      title: 'Naa Nii',
-      description:
-        'Cà phê là một mặt hàng xuất khẩu lớn: đứng đầu trong số các mặt hàng xuất khẩu nông nghiệp tại nhiều quốc gia và là một trong những mặt hàng xuất khẩu nông nghiệp hợp pháp lớn nhất trên thế giới.[4][9] Đây cũng là loại hàng hóa có giá trị xuất khẩu nhất của các quốc gia đang phát triển. Cũng nhờ vậy, thị trường Read more',
-      price: '47',
-      image:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6wMUznmg4JxQZECDFV5z4e60ghw62ynKyBQ&usqp=CAU',
-      quality: 10,
-      categories: 'food',
-      size: 'L',
-    },
-    {
-      id: 2,
-      title: 'Naa Nii',
-      description:
-        'Cà phê là một mặt hàng xuất khẩu lớn: đứng đầu trong số các mặt hàng xuất khẩu nông nghiệp tại nhiều quốc gia và là một trong những mặt hàng xuất khẩu nông nghiệp hợp pháp lớn nhất trên thế giới.[4][9] Đây cũng là loại hàng hóa có giá trị xuất khẩu nhất của các quốc gia đang phát triển. Cũng nhờ vậy, thị trường Read more',
-      price: '47',
-      image:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6wMUznmg4JxQZECDFV5z4e60ghw62ynKyBQ&usqp=CAU',
-      quality: 11,
-      categories: 'food',
-      size: 'L',
-    },
-    {
-      id: 3,
-      title: 'Naa Nii',
-      description:
-        'Cà phê là một mặt hàng xuất khẩu lớn: đứng đầu trong số các mặt hàng xuất khẩu nông nghiệp tại nhiều quốc gia và là một trong những mặt hàng xuất khẩu nông nghiệp hợp pháp lớn nhất trên thế giới.[4][9] Đây cũng là loại hàng hóa có giá trị xuất khẩu nhất của các quốc gia đang phát triển. Cũng nhờ vậy, thị trường Read more',
-      price: '47',
-      image:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6wMUznmg4JxQZECDFV5z4e60ghw62ynKyBQ&usqp=CAU',
-      quality: 12,
-      categories: 'food',
-      size: 'L',
-    },
-    {
-      id: 4,
-      title: 'Naa Nii',
-      description:
-        'Cà phê là một mặt hàng xuất khẩu lớn: đứng đầu trong số các mặt hàng xuất khẩu nông nghiệp tại nhiều quốc gia và là một trong những mặt hàng xuất khẩu nông nghiệp hợp pháp lớn nhất trên thế giới.[4][9] Đây cũng là loại hàng hóa có giá trị xuất khẩu nhất của các quốc gia đang phát triển. Cũng nhờ vậy, thị trường Read more',
-      price: '47',
-      image:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6wMUznmg4JxQZECDFV5z4e60ghw62ynKyBQ&usqp=CAU',
-      quality: 14,
-      categories: 'food',
-      size: 'L',
-    },
-  ]);
+  // const [data, setData] = useState([
+  //   {
+  //     id: 1,
+  //     title: 'Naa Nii',
+  //     description:
+  //       'Cà phê là một mặt hàng xuất khẩu lớn: đứng đầu trong số các mặt hàng xuất khẩu nông nghiệp tại nhiều quốc gia và là một trong những mặt hàng xuất khẩu nông nghiệp hợp pháp lớn nhất trên thế giới.[4][9] Đây cũng là loại hàng hóa có giá trị xuất khẩu nhất của các quốc gia đang phát triển. Cũng nhờ vậy, thị trường Read more',
+  //     price: '47',
+  //     image:
+  //       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6wMUznmg4JxQZECDFV5z4e60ghw62ynKyBQ&usqp=CAU',
+  //     quality: 10,
+  //     categories: 'food',
+  //     size: 'L',
+  //   },
+  //   {
+  //     id: 2,
+  //     title: 'Naa Nii',
+  //     description:
+  //       'Cà phê là một mặt hàng xuất khẩu lớn: đứng đầu trong số các mặt hàng xuất khẩu nông nghiệp tại nhiều quốc gia và là một trong những mặt hàng xuất khẩu nông nghiệp hợp pháp lớn nhất trên thế giới.[4][9] Đây cũng là loại hàng hóa có giá trị xuất khẩu nhất của các quốc gia đang phát triển. Cũng nhờ vậy, thị trường Read more',
+  //     price: '47',
+  //     image:
+  //       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6wMUznmg4JxQZECDFV5z4e60ghw62ynKyBQ&usqp=CAU',
+  //     quality: 11,
+  //     categories: 'food',
+  //     size: 'L',
+  //   },
+  //   {
+  //     id: 3,
+  //     title: 'Naa Nii',
+  //     description:
+  //       'Cà phê là một mặt hàng xuất khẩu lớn: đứng đầu trong số các mặt hàng xuất khẩu nông nghiệp tại nhiều quốc gia và là một trong những mặt hàng xuất khẩu nông nghiệp hợp pháp lớn nhất trên thế giới.[4][9] Đây cũng là loại hàng hóa có giá trị xuất khẩu nhất của các quốc gia đang phát triển. Cũng nhờ vậy, thị trường Read more',
+  //     price: '47',
+  //     image:
+  //       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6wMUznmg4JxQZECDFV5z4e60ghw62ynKyBQ&usqp=CAU',
+  //     quality: 12,
+  //     categories: 'food',
+  //     size: 'L',
+  //   },
+  //   {
+  //     id: 4,
+  //     title: 'Naa Nii',
+  //     description:
+  //       'Cà phê là một mặt hàng xuất khẩu lớn: đứng đầu trong số các mặt hàng xuất khẩu nông nghiệp tại nhiều quốc gia và là một trong những mặt hàng xuất khẩu nông nghiệp hợp pháp lớn nhất trên thế giới.[4][9] Đây cũng là loại hàng hóa có giá trị xuất khẩu nhất của các quốc gia đang phát triển. Cũng nhờ vậy, thị trường Read more',
+  //     price: '47',
+  //     image:
+  //       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6wMUznmg4JxQZECDFV5z4e60ghw62ynKyBQ&usqp=CAU',
+  //     quality: 14,
+  //     categories: 'food',
+  //     size: 'L',
+  //   },
+  // ]);
 
   // ------------------------ Search function ----------------------
   const [search, setSearch] = useState('');
+  const collection = firestore().collection('products');
+  const pageSize = 10;
+  const page = 10;
+  const {data, loading, error, refresh} = useFirestoreCollection(
+    collection,
+    pageSize,
+    page,
+  );
   const searchFilterFunction = () => {
     console.log('Search');
   };
@@ -115,6 +125,20 @@ const Product = ({navigation}) => {
       </TouchableOpacity>
     );
   };
+
+  // --------------- show data----------------------------
+  useEffect(() => {
+    refresh();
+  });
+
+  if (loading) {
+    return <Text>Loading...</Text>;
+  }
+
+  if (error) {
+    return <Text>Error: {error.message}</Text>;
+  }
+
   return (
     <FlatList
       style={styles.container}
@@ -124,6 +148,8 @@ const Product = ({navigation}) => {
       numColumns={2}
       renderItem={({item}) => <Item item={item} />}
       keyExtractor={item => item.id}
+      onRefresh={refresh}
+      refreshing={loading}
     />
   );
 };
