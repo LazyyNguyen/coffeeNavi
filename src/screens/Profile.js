@@ -1,21 +1,13 @@
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-} from 'react-native';
-import React, {useEffect} from 'react';
-import Icon from 'react-native-vector-icons/Ionicons';
-import IconFeature from 'react-native-vector-icons/Feather';
 import firestore from '@react-native-firebase/firestore';
+import React, {useEffect} from 'react';
+import {FlatList, Image, StyleSheet, Text, View} from 'react-native';
+import IconFeature from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/Ionicons';
 import useFirestoreCollection from '../hooks/useFirestoreCollection';
 
 import MyButton from '../components/MyButton';
-
-function MyComponent() {
-  const collection = firestore().collection('products');
+function User() {
+  const collection = firestore().collection('profile');
   const pageSize = 10;
   const page = 10;
   const {data, loading, error, refresh} = useFirestoreCollection(
@@ -46,7 +38,6 @@ function MyComponent() {
     />
   );
 }
-
 const Profile = () => {
   return (
     <View style={styles.profile}>
@@ -138,11 +129,10 @@ const Profile = () => {
           extraStyle={{alignSelf: 'center', marginTop: 20}}
         />
       </View>
-      <MyComponent />
+      <User />
     </View>
   );
 };
-
 export default Profile;
 
 const styles = StyleSheet.create({
