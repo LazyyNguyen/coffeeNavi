@@ -23,7 +23,7 @@ const MyTextInput = ({placeholder, type, onChangeText, title}) => {
       <TextInput
         onChangeText={onChangeText}
         placeholderTextColor="#7C7A7A"
-        placeholder={placeholder}
+        placeholder={placeholder} 
         style={inputStyle}
       />
     </View>

@@ -12,6 +12,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
+
 import React from 'react';
 
 const TopItem = ({data, color}) => {

@@ -12,8 +12,9 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import TopItem from '../components/TopItem';
+import firestore from '@react-native-firebase/firestore';
 const Data = [
   {
     quantity: 75,
@@ -53,7 +54,22 @@ const Data = [
 ];
 const colors = ['#FAB2FC', '#BFBFBF', '#9DE2E2'];
 const FLatListTopItem = () => {
-  const [data, setData] = useState(Data);
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+  const collection = firestore().collection('Products');
+
+  useEffect(() => {
+    return collection.onSnapshot(querySnapshot => {
+      const list = [];
+      querySnapshot.forEach(doc => {
+        list.push(doc.data());
+      });
+      setData(list);
+      if (loading) {
+        setLoading(false);
+      }
+    });
+  }, []);
   return (
     <FlatList
       showsVerticalScrollIndicator

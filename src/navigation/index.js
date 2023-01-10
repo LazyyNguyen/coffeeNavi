@@ -64,14 +64,15 @@ function MyTabs() {
       initialRouteName="Loading"
       screenOptions={{
         tabBarActiveTintColor: '#e91e63',
+        tabBarShowLabel: false,
       }}>
       <Tab.Screen
         name="Home"
         component={Home}
         options={{
           headerShown: false,
-          tabBarLabel: 'Home',
-          tabBarIcon: () => <Icon name="home" size={20} />,
+
+          tabBarIcon: () => <Icon name="home" size={20} color="black" />,
         }}
       />
       <Tab.Screen
@@ -79,7 +80,7 @@ function MyTabs() {
         component={ManagementRevenue}
         options={{
           tabBarLabel: 'Revenue',
-          tabBarIcon: () => <Icon name="tag" size={20} />,
+          tabBarIcon: () => <Icon name="tag" size={20} color="black" />,
         }}
       />
       <Tab.Screen
@@ -88,7 +89,7 @@ function MyTabs() {
         options={{
           headerShown: false,
           tabBarLabel: 'Updates',
-          tabBarIcon: () => <Icon name="coffee" size={20} />,
+          tabBarIcon: () => <Icon name="coffee" size={20} color="black" />,
         }}
       />
       <Tab.Screen
@@ -96,7 +97,7 @@ function MyTabs() {
         component={ManagementProduct}
         options={{
           tabBarLabel: 'Management',
-          tabBarIcon: () => <Icon name="list" size={20} />,
+          tabBarIcon: () => <Icon name="list" size={20} color="black" />,
         }}
       />
       <Tab.Screen
@@ -104,7 +105,7 @@ function MyTabs() {
         component={Profile}
         options={{
           tabBarLabel: 'Profile',
-          tabBarIcon: () => <Icon name="user" size={20} />,
+          tabBarIcon: () => <Icon name="user" size={20} color="black" />,
         }}
       />
       <Tab.Screen
