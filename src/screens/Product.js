@@ -26,17 +26,18 @@ const Product = ({navigation}) => {
 
   // ------------------------ Search function ----------------------
   const [search, setSearch] = useState('');
+  const [filteredDataSource, setFilteredDataSource] = useState([data]);
   const searchFilterFunction = text => {
     if (text) {
-      const newData = data.filter(function (item) {
+      const newData = data.filter(item => {
         const itemData = item.name ? item.name.toUpperCase() : ''.toUpperCase();
         const textData = text.toUpperCase();
         return itemData.indexOf(textData) > -1;
       });
-      // setFilteredDataSource(newData);
+      setFilteredDataSource(newData);
       setSearch(text);
     } else {
-      // setFilteredDataSource(masterDataSource);
+      setFilteredDataSource(data);
       setSearch(text);
     }
   };
@@ -46,11 +47,9 @@ const Product = ({navigation}) => {
       <View style={styles.header}>
         <TextInput
           style={styles.textInputStyle}
-          onChange={() => {
-            searchFilterFunction();
-          }}
-          onClear={text => searchFilterFunction('')}
+          onChangeText={text => searchFilterFunction(text)}
           value={search}
+          underlineColorAndroid="transparent"
           placeholder="Search Here"
         />
         <View style={styles.textHeader}>

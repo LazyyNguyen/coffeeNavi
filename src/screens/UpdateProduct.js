@@ -1,7 +1,17 @@
 import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 import React, {useState} from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import ImagePicker from 'react-native-image-crop-picker';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import MyButton from '../components/MyButton';
 import MyTextInput from '../components/MyTextInput';
 
 const UpdateProduct = ({navigation, route}) => {
@@ -9,7 +19,7 @@ const UpdateProduct = ({navigation, route}) => {
   const [textName, onChangeNameText] = useState(item.name);
   const [textDescription, onChangeDescriptionText] = useState(item.description);
   const [textPrice, onChangePriceText] = useState(item.price);
-  // const [isImage, onChangeImage] = useState(route.params.item.name);
+  const [isImage, onChangeImage] = useState(item.image);
   const [textCategories, onChangeCategoriesText] = useState(item.category);
 
   async function updateItem() {
@@ -19,8 +29,7 @@ const UpdateProduct = ({navigation, route}) => {
       .update({
         name: textName,
         description: textDescription,
-        // price: textPrice,
-        // image: isImage,
+        img: isImage,
         category: textCategories,
         price: textPrice,
       })
@@ -46,12 +55,47 @@ const UpdateProduct = ({navigation, route}) => {
     updateItem();
   }
 
+  // --------------choose image--------------------------
+  function choosePic() {
+    ImagePicker.openPicker({
+      width: 400,
+      height: 400,
+      cropping: true,
+    }).then(image => {
+      const imageName = image.path.substring(image.path.lastIndexOf('/') + 1);
+      const bucketFile = `images/${imageName}`;
+      const pathToFile = image.path;
+      console.log('link ở đây nèeeee', pathToFile);
+      let reference = storage().ref(bucketFile);
+      let task = reference.putFile(pathToFile);
+      task
+        .then(() => {
+          console.log('Image uploaded to the bucket!');
+          onChangeImage(pathToFile);
+        })
+        .catch(e => console.log('uploading image error => ', e));
+    });
+  }
   return (
     <View style={styles.container}>
       <View style={styles.headerAdd}>
         <Icon name="arrow-back-ios" size={30} onPress={navigation.goBack} />
         <Text style={styles.titleAdd}>Update Product</Text>
       </View>
+      <TouchableOpacity>
+        <Image
+          source={{
+            uri: `${item.img}`,
+          }}
+          style={styles.imageAdd}
+        />
+        <MyButton
+          onPress={() => {
+            choosePic();
+          }}
+          lable="image"
+        />
+      </TouchableOpacity>
       <MyTextInput onChangeText={onChangeNameText} value={textName} />
       <MyTextInput
         onChangeText={onChangeDescriptionText}
@@ -97,6 +141,10 @@ const styles = StyleSheet.create({
   headerAdd: {
     display: 'flex',
     flexDirection: 'row',
+  },
+  imageAdd: {
+    width: 300,
+    height: 300,
   },
 });
 

@@ -7,10 +7,6 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import MyButton from '../components/MyButton';
 import MyTextInput from '../components/MyTextInput';
 
-// const reference = storage().ref('images/food.1jpg');
-// const url = storage().ref('images/food/1.jpg').getDownloadURL();
-// console.log(url);
-
 const CreateProduct = ({navigation}) => {
   const [image, setImage] = useState('');
   const [textName, onChangeTitleText] = useState('');
@@ -51,11 +47,6 @@ const CreateProduct = ({navigation}) => {
   }
 
   // ---------------------upload image------------------------
-
-  // function uploadImage() {
-  //   const pathToFile = `${utils.FilePath.PICTURES_DIRECTORY}/i`;
-  //   reference.putFile(pathToFile);
-  // }
   function choosePic() {
     ImagePicker.openPicker({
       width: 400,
@@ -65,10 +56,9 @@ const CreateProduct = ({navigation}) => {
       const imageName = image.path.substring(image.path.lastIndexOf('/') + 1);
       const bucketFile = `images/${imageName}`;
       const pathToFile = image.path;
-      console.log('link ở đây nèeeee', pathToFile);
+      console.log('link', pathToFile);
       let reference = storage().ref(bucketFile);
       let task = reference.putFile(pathToFile);
-      // setImage(pathToFile);
       task
         .then(() => {
           console.log('Image uploaded to the bucket!');
