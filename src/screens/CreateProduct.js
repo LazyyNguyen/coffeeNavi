@@ -1,19 +1,22 @@
-import {utils} from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import React, {useState} from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
+import ImagePicker from 'react-native-image-crop-picker';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MyButton from '../components/MyButton';
 import MyTextInput from '../components/MyTextInput';
 
-const CreateProduct = ({navigation, route}) => {
+// const reference = storage().ref('images/food.1jpg');
+// const url = storage().ref('images/food/1.jpg').getDownloadURL();
+// console.log(url);
+
+const CreateProduct = ({navigation}) => {
+  const [image, setImage] = useState('');
   const [textName, onChangeTitleText] = useState('');
   const [textDescription, onChangeDescriptionText] = useState('');
   const [textPrice, onChangePriceText] = useState('');
   const [textCategories, onChangeCategoriesText] = useState('');
-
-  const [image, setImage] = useState(null);
 
   async function addItem() {
     await firestore()
@@ -47,14 +50,32 @@ const CreateProduct = ({navigation, route}) => {
     addItem();
   }
 
-  // ------------ upload image ---------------------
-  const reference = storage().ref('../assets/imgs/');
+  // ---------------------upload image------------------------
 
-  function choosePhotoFromLibrary() {
-    async () => {
-      const pathToFile = `${utils.FilePath.PICTURES_DIRECTORY}/../../assets/imgs/`;
-      await reference.putFile(pathToFile);
-    };
+  // function uploadImage() {
+  //   const pathToFile = `${utils.FilePath.PICTURES_DIRECTORY}/i`;
+  //   reference.putFile(pathToFile);
+  // }
+  function choosePic() {
+    ImagePicker.openPicker({
+      width: 400,
+      height: 400,
+      cropping: true,
+    }).then(image => {
+      const imageName = image.path.substring(image.path.lastIndexOf('/') + 1);
+      const bucketFile = `images/${imageName}`;
+      const pathToFile = image.path;
+      console.log('link ở đây nèeeee', pathToFile);
+      let reference = storage().ref(bucketFile);
+      let task = reference.putFile(pathToFile);
+      // setImage(pathToFile);
+      task
+        .then(() => {
+          console.log('Image uploaded to the bucket!');
+          setImage(pathToFile);
+        })
+        .catch(e => console.log('uploading image error => ', e));
+    });
   }
 
   return (
@@ -64,8 +85,8 @@ const CreateProduct = ({navigation, route}) => {
         <Text style={styles.titleAdd}>Add New Product</Text>
       </View>
       <MyButton
-        onPress={e => {
-          choosePhotoFromLibrary(e);
+        onPress={() => {
+          choosePic();
         }}
         lable="image"
       />

@@ -14,7 +14,7 @@ import useFirestoreCollection from '../hooks/useFirestoreCollection';
 
 // -----------------get data from firebase-------------------
 const collection = firestore().collection('Products');
-const pageSize = 6;
+const pageSize = 10;
 const page = 1;
 
 const Product = ({navigation}) => {

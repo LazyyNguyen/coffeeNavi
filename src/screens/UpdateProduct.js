@@ -1,6 +1,6 @@
 import firestore from '@react-native-firebase/firestore';
 import React, {useState} from 'react';
-import {Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MyTextInput from '../components/MyTextInput';
 
@@ -19,9 +19,10 @@ const UpdateProduct = ({navigation, route}) => {
       .update({
         name: textName,
         description: textDescription,
-        price: textPrice,
+        // price: textPrice,
         // image: isImage,
         category: textCategories,
+        price: textPrice,
       })
       .then(() => {
         navigation.navigate('Products');
@@ -37,7 +38,7 @@ const UpdateProduct = ({navigation, route}) => {
       textName.length == 0 ||
       textDescription.length == 0 ||
       textCategories.length == 0 ||
-      textPrice == 0
+      textPrice.length == 0
     ) {
       alert('The fields are required');
       return;
@@ -51,7 +52,7 @@ const UpdateProduct = ({navigation, route}) => {
         <Icon name="arrow-back-ios" size={30} onPress={navigation.goBack} />
         <Text style={styles.titleAdd}>Update Product</Text>
       </View>
-      <TextInput onChangeText={onChangeNameText} value={textName} />
+      <MyTextInput onChangeText={onChangeNameText} value={textName} />
       <MyTextInput
         onChangeText={onChangeDescriptionText}
         value={textDescription}
