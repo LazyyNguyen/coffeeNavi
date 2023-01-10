@@ -1,37 +1,31 @@
-import {doc, updateDoc} from '@react-native-firebase/firestore';
+import firestore from '@react-native-firebase/firestore';
 import React, {useState} from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MyTextInput from '../components/MyTextInput';
 
 const UpdateProduct = ({navigation, route}) => {
   const {item} = route.params || {};
-
-  const [textTitle, onChangeTitleText] = useState(route.params.item.name);
-  const [textDescription, onChangeDescriptionText] = useState(
-    route.params.item.name,
-  );
-  const [textPrice, onChangePriceText] = useState(route.params.item.name);
-  const [textQuality, onChangeQualityText] = useState(route.params.item.name);
-  const [textSize, onChangeSizeText] = useState(route.params.item.name);
-  const [isImage, onChangeImage] = useState(route.params.item.name);
-  const [textCategories, onChangeCategoriesText] = useState(
-    route.params.item.name,
-  );
+  const [textName, onChangeNameText] = useState(item.name);
+  const [textDescription, onChangeDescriptionText] = useState(item.description);
+  const [textPrice, onChangePriceText] = useState(item.price);
+  // const [isImage, onChangeImage] = useState(route.params.item.name);
+  const [textCategories, onChangeCategoriesText] = useState(item.category);
 
   async function updateItem() {
-    const ref = doc(item, 'users', route.params.item.id);
-    await updateDoc(ref, {
-      title: textTitle,
-      description: textDescription,
-      price: textPrice,
-      quality: textQuality,
-      size: textSize,
-      image: isImage,
-      categories: textCategories,
-    })
+    await firestore()
+      .collection('Products')
+      .doc(item.id)
+      .update({
+        name: textName,
+        description: textDescription,
+        price: textPrice,
+        // image: isImage,
+        category: textCategories,
+      })
       .then(() => {
-        navigation.navigate('Product');
+        navigation.navigate('Products');
+        alert('Update Item Successfully!');
       })
       .catch(error => {
         alert(error.message);
@@ -40,10 +34,8 @@ const UpdateProduct = ({navigation, route}) => {
 
   function ButtonSave() {
     if (
-      textTitle.length == 0 ||
+      textName.length == 0 ||
       textDescription.length == 0 ||
-      textQuality == 0 ||
-      textSize.length == 0 ||
       textCategories.length == 0 ||
       textPrice == 0
     ) {
@@ -57,40 +49,20 @@ const UpdateProduct = ({navigation, route}) => {
     <View style={styles.container}>
       <View style={styles.headerAdd}>
         <Icon name="arrow-back-ios" size={30} onPress={navigation.goBack} />
-        <Text style={styles.titleAdd}>Add New Product</Text>
+        <Text style={styles.titleAdd}>Update Product</Text>
       </View>
-      <MyTextInput
-        onChangeText={onChangeTitleText}
-        value={textTitle}
-        placeholder="Enter title"
-      />
+      <TextInput onChangeText={onChangeNameText} value={textName} />
       <MyTextInput
         onChangeText={onChangeDescriptionText}
         value={textDescription}
-        placeholder="Enter Description"
       />
-      <MyTextInput
-        onChangeText={onChangePriceText}
-        value={textPrice}
-        placeholder="Enter Price"
-      />
-      <MyTextInput
-        onChangeText={onChangeQualityText}
-        value={textQuality}
-        placeholder="Enter Quality"
-      />
-      <MyTextInput
-        onChangeText={onChangeSizeText}
-        value={textSize}
-        placeholder="Enter size cup"
-      />
+      <MyTextInput onChangeText={onChangePriceText} value={textPrice} />
       <MyTextInput
         onChangeText={onChangeCategoriesText}
         value={textCategories}
-        placeholder="Enter categories"
       />
       <Pressable style={styles.buttonSave} onPress={() => ButtonSave()}>
-        <Text style={styles.textButton}>SAVE USER</Text>
+        <Text style={styles.textButton}>SUBMIT</Text>
       </Pressable>
     </View>
   );

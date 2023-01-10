@@ -1,31 +1,33 @@
-import {addDoc, collection} from '@react-native-firebase/firestore';
+import {utils} from '@react-native-firebase/app';
+import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 import React, {useState} from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import MyButton from '../components/MyButton';
 import MyTextInput from '../components/MyTextInput';
 
 const CreateProduct = ({navigation, route}) => {
-  const {item} = route.params || {};
-  const [textTitle, onChangeTitleText] = useState('');
+  const [textName, onChangeTitleText] = useState('');
   const [textDescription, onChangeDescriptionText] = useState('');
   const [textPrice, onChangePriceText] = useState('');
-  const [textQuality, onChangeQualityText] = useState('');
-  const [textSize, onChangeSizeText] = useState('');
-  const [isImage, onChangeImage] = useState('');
   const [textCategories, onChangeCategoriesText] = useState('');
 
+  const [image, setImage] = useState(null);
+
   async function addItem() {
-    await addDoc(collection({item}), {
-      title: textTitle,
-      description: textDescription,
-      price: textPrice,
-      quality: textQuality,
-      size: textSize,
-      image: isImage,
-      categories: textCategories,
-    })
+    await firestore()
+      .collection('Products')
+      .add({
+        name: textName,
+        description: textDescription,
+        price: textPrice,
+        img: image,
+        category: textCategories,
+      })
       .then(() => {
-        navigation.navigate('Product');
+        navigation.navigate('Products');
+        alert('Create Neww Item Successfully!');
       })
       .catch(error => {
         alert(error.message);
@@ -34,10 +36,8 @@ const CreateProduct = ({navigation, route}) => {
 
   function ButtonSave() {
     if (
-      textTitle.length == 0 ||
+      textName.length == 0 ||
       textDescription.length == 0 ||
-      textQuality == 0 ||
-      textSize.length == 0 ||
       textCategories.length == 0 ||
       textPrice == 0
     ) {
@@ -47,15 +47,31 @@ const CreateProduct = ({navigation, route}) => {
     addItem();
   }
 
+  // ------------ upload image ---------------------
+  const reference = storage().ref('../assets/imgs/');
+
+  function choosePhotoFromLibrary() {
+    async () => {
+      const pathToFile = `${utils.FilePath.PICTURES_DIRECTORY}/../../assets/imgs/`;
+      await reference.putFile(pathToFile);
+    };
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.headerAdd}>
         <Icon name="arrow-back-ios" size={30} onPress={navigation.goBack} />
         <Text style={styles.titleAdd}>Add New Product</Text>
       </View>
+      <MyButton
+        onPress={e => {
+          choosePhotoFromLibrary(e);
+        }}
+        lable="image"
+      />
       <MyTextInput
         onChangeText={onChangeTitleText}
-        value={textTitle}
+        value={textName}
         placeholder="Enter title"
       />
       <MyTextInput
@@ -68,16 +84,7 @@ const CreateProduct = ({navigation, route}) => {
         value={textPrice}
         placeholder="Enter Price"
       />
-      <MyTextInput
-        onChangeText={onChangeQualityText}
-        value={textQuality}
-        placeholder="Enter Quality"
-      />
-      <MyTextInput
-        onChangeText={onChangeSizeText}
-        value={textSize}
-        placeholder="Enter size cup"
-      />
+
       <MyTextInput
         onChangeText={onChangeCategoriesText}
         value={textCategories}

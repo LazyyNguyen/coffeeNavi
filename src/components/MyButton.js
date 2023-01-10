@@ -8,7 +8,7 @@ const SIZES = ['small', 'medium', 'large'];
 const MyButton = ({onPress, type, size, lable, extraStyle}) => {
   const btnSize = SIZES.includes(size) ? size : 'small';
   const btnType = TYPES.includes(type) ? type : 'base';
-
+  console.log(onPress);
   const btnStyle = {
     height: 55,
     width:

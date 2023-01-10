@@ -1,14 +1,14 @@
-import {deleteDoc, doc} from '@react-native-firebase/firestore';
+import firestore from '@react-native-firebase/firestore';
 import React from 'react';
 import {
   Alert,
   Image,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MyButton from '../components/MyButton';
@@ -16,7 +16,7 @@ import MyButton from '../components/MyButton';
 
 const Details = ({navigation, route}) => {
   const {item} = route.params || {};
-
+  console.log('navigation');
   // ------------------- Delete Item--------------------
   const showConfirmDialog = () => {
     return Alert.alert(
@@ -37,10 +37,12 @@ const Details = ({navigation, route}) => {
   };
 
   async function deleteItem() {
-    const ref = doc({item}, route.params.item.id);
-    await deleteDoc(ref)
+    await firestore()
+      .collection('Products')
+      .doc(item.id)
+      .delete()
       .then(() => {
-        navigation.navigate('Product');
+        navigation.navigate('Products');
         alert('Deleted Item Successfully!');
       })
       .catch(error => {
@@ -56,10 +58,8 @@ const Details = ({navigation, route}) => {
       </View>
       <View>
         <View style={styles.infoItem}>
-          <Text>Quality: {item?.quality}</Text>
           <Text>Price: {item.price}</Text>
-          <Text>Categories: {item.categories}</Text>
-          <Text>Size: {item.size}</Text>
+          <Text>Categories: {item.category}</Text>
         </View>
         <View
           style={{
@@ -69,7 +69,7 @@ const Details = ({navigation, route}) => {
           }}>
           <Image
             source={{
-              uri: `${item.image}`,
+              uri: `${item.img}`,
             }}
             style={styles.imageItemDetail}
           />
@@ -81,7 +81,7 @@ const Details = ({navigation, route}) => {
         </ScrollView>
         <View>
           <MyButton
-            onPress={() => navigation.navigate('Update', {item})}
+            onPress={() => navigation.navigate('productUpdate', {item})}
             lable="Update"></MyButton>
         </View>
         <TouchableOpacity style={{marginTop: 10, marginBottom: 10}}>

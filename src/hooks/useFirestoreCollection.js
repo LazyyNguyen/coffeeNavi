@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-
+import {StyleSheet} from 'react-native';
 function useFirestoreCollection(collection, pageSize, page) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -30,7 +30,6 @@ function useFirestoreCollection(collection, pageSize, page) {
         },
       );
     } else {
-      // setLoading(true);
       unsubscribe = collection
         .limit(pageSize)
         // .offset(page * pageSize)
@@ -76,7 +75,6 @@ function useFirestoreCollection(collection, pageSize, page) {
         },
       );
     } else {
-      // setLoading(true);
       collection
         .limit(pageSize)
         // .offset(page * pageSize)
@@ -100,6 +98,7 @@ function useFirestoreCollection(collection, pageSize, page) {
         );
     }
   }
+
   function setCollectionQuery(newQuery) {
     setQuery(newQuery);
   }
@@ -116,3 +115,5 @@ function useFirestoreCollection(collection, pageSize, page) {
 }
 
 export default useFirestoreCollection;
+
+const styles = StyleSheet.create({});

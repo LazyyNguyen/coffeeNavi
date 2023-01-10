@@ -13,8 +13,8 @@ import SignUp from '../components/signIn/SignUp';
 import CreateProduct from '../screens/CreateProduct';
 import Product from '../screens/Product';
 import Details from '../screens/ProductDetails';
-import UpdateProduct from '../screens/UpdateProduct';
 import Profile from '../screens/Profile';
+import UpdateProduct from '../screens/UpdateProduct';
 function Feed() {
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
@@ -133,13 +133,14 @@ export default function Navigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator
+        initialRouteName="Tab"
         screenOptions={{
           headerShown: false,
         }}>
         <Stack.Screen name="Tab" component={MyTabs} />
-        <Stack.Screen name="Details" component={Details} />
+        <Stack.Screen name="Detail" component={Details} />
         <Stack.Screen name="addNew" component={CreateProduct} />
-        <Stack.Screen name="Update" component={UpdateProduct} />
+        <Stack.Screen name="productUpdate" component={UpdateProduct} />
       </Stack.Navigator>
     </NavigationContainer>
   );
