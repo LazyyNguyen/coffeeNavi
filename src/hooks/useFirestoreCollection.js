@@ -111,6 +111,7 @@ function useFirestoreCollection(collection, pageSize, page) {
     queryError,
     refresh,
     setCollectionQuery,
+    setData,
   };
 }
 

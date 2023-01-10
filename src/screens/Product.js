@@ -18,7 +18,7 @@ const pageSize = 10;
 const page = 1;
 
 const Product = ({navigation}) => {
-  const {data, loading, error, refresh} = useFirestoreCollection(
+  const {data, loading, error, refresh, setData} = useFirestoreCollection(
     collection,
     pageSize,
     page,
@@ -26,21 +26,24 @@ const Product = ({navigation}) => {
 
   // ------------------------ Search function ----------------------
   const [search, setSearch] = useState('');
-  const [filteredDataSource, setFilteredDataSource] = useState([data]);
+  const [filteredDataSource, setFilteredDataSource] = useState([]);
   const searchFilterFunction = text => {
-    if (text) {
-      const newData = data.filter(item => {
-        const itemData = item.name ? item.name.toUpperCase() : ''.toUpperCase();
-        const textData = text.toUpperCase();
-        return itemData.indexOf(textData) > -1;
-      });
-      setFilteredDataSource(newData);
-      setSearch(text);
+    console.log(data);
+    if (text !== '') {
+      const datasearched = data.filter(item =>
+        item.name
+          .toUpperCase()
+          .includes(text.toUpperCase().trim().replace(/\s/g, '')),
+      );
+      setData(datasearched);
+      console.log(data);
     } else {
       setFilteredDataSource(data);
-      setSearch(text);
+      console.log('first');
     }
+    setSearch(text);
   };
+
   //--------------- Header ----------------------
   const headerproduct = ({item}) => {
     return (
@@ -49,7 +52,6 @@ const Product = ({navigation}) => {
           style={styles.textInputStyle}
           onChangeText={text => searchFilterFunction(text)}
           value={search}
-          underlineColorAndroid="transparent"
           placeholder="Search Here"
         />
         <View style={styles.textHeader}>
@@ -124,7 +126,6 @@ export default Product;
 
 const styles = StyleSheet.create({
   container: {
-    // margin: 10,
     backgroundColor: '#ffff',
   },
   containerItem: {
@@ -143,7 +144,6 @@ const styles = StyleSheet.create({
     margin: 7,
   },
   bodyItem: {
-    // marginLeft: 10,
     marginBottom: 5,
     alignItems: 'center',
   },
@@ -163,7 +163,6 @@ const styles = StyleSheet.create({
     marginLeft: '5%',
   },
   header: {
-    // margin: 0,
     padding: 0,
     width: '90%',
     marginLeft: '5%',
@@ -188,7 +187,4 @@ const styles = StyleSheet.create({
   priceItems: {
     fontWeight: 'bold',
   },
-  // descriptionItem: {
-
-  // },
 });

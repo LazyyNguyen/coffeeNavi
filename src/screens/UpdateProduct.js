@@ -65,7 +65,7 @@ const UpdateProduct = ({navigation, route}) => {
       const imageName = image.path.substring(image.path.lastIndexOf('/') + 1);
       const bucketFile = `images/${imageName}`;
       const pathToFile = image.path;
-      console.log('link ở đây nèeeee', pathToFile);
+      // console.log('link ở đây nèeeee', pathToFile);
       let reference = storage().ref(bucketFile);
       let task = reference.putFile(pathToFile);
       task
@@ -143,8 +143,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   imageAdd: {
-    width: 300,
-    height: 300,
+    width: 100,
+    height: 100,
   },
 });
 
