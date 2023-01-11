@@ -1,12 +1,55 @@
+import firestore from '@react-native-firebase/firestore';
 import React from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
+import {
+  Alert,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MyButton from '../components/MyButton';
+// import db from '../firebase/firebase.config';
 
 const Details = ({navigation, route}) => {
   const {item} = route.params || {};
+  console.log('navigation');
+  // ------------------- Delete Item--------------------
+  const showConfirmDialog = () => {
+    return Alert.alert(
+      'Are your sure?',
+      'Are you sure you want to Delete this User? This action cannot be undone!',
+      [
+        {
+          text: 'Yes',
+          onPress: () => {
+            deleteItem();
+          },
+        },
+        {
+          text: 'No',
+        },
+      ],
+    );
+  };
+
+  async function deleteItem() {
+    await firestore()
+      .collection('Products')
+      .doc(item.id)
+      .delete()
+      .then(() => {
+        navigation.navigate('Products');
+        alert('Deleted Item Successfully!');
+      })
+      .catch(error => {
+        alert(error.message);
+      });
+  }
+
   return (
     <SafeAreaView style={{backgroundColor: 'white'}}>
       <View style={styles.header}>
@@ -15,10 +58,8 @@ const Details = ({navigation, route}) => {
       </View>
       <View>
         <View style={styles.infoItem}>
-          <Text>Quality: {item?.quality}</Text>
           <Text>Price: {item.price}</Text>
-          <Text>Categories: {item.categories}</Text>
-          <Text>Size: {item.size}</Text>
+          <Text>Categories: {item.category}</Text>
         </View>
         <View
           style={{
@@ -28,7 +69,7 @@ const Details = ({navigation, route}) => {
           }}>
           <Image
             source={{
-              uri: `${item.image}`,
+              uri: `${item.img}`,
             }}
             style={styles.imageItemDetail}
           />
@@ -40,12 +81,18 @@ const Details = ({navigation, route}) => {
         </ScrollView>
         <View>
           <MyButton
-            onPress={() => navigation.navigate('ManagementRevenue')}
+            onPress={() => navigation.navigate('productUpdate', {item})}
             lable="Update"></MyButton>
         </View>
-        <View style={{marginTop: 10, marginBottom: 10}}>
-          <MyButton lable="Delete" />
-        </View>
+        <TouchableOpacity style={{marginTop: 10, marginBottom: 10}}>
+          <MyButton
+            lable="Delete"
+            type="secondary"
+            onPress={() => {
+              showConfirmDialog();
+            }}
+          />
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );

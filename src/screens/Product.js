@@ -1,78 +1,83 @@
-import React, {useState} from 'react';
+import firestore from '@react-native-firebase/firestore';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
+  ActivityIndicator,
   FlatList,
   Image,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
+import {TextInput} from 'react-native-gesture-handler';
+import useFirestoreCollection from '../hooks/useFirestoreCollection';
+
+// -----------------get data from firebase-------------------
+const collection = firestore().collection('Products');
+const pageSize = 10;
+const page = 1;
 
 const Product = ({navigation}) => {
-  const [data, setData] = useState([
-    {
-      id: 1,
-      title: 'Naa Nii',
-      description:
-        'Cà phê là một mặt hàng xuất khẩu lớn: đứng đầu trong số các mặt hàng xuất khẩu nông nghiệp tại nhiều quốc gia và là một trong những mặt hàng xuất khẩu nông nghiệp hợp pháp lớn nhất trên thế giới.[4][9] Đây cũng là loại hàng hóa có giá trị xuất khẩu nhất của các quốc gia đang phát triển. Cũng nhờ vậy, thị trường Read more',
-      price: '47',
-      image:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6wMUznmg4JxQZECDFV5z4e60ghw62ynKyBQ&usqp=CAU',
-      quality: 10,
-      categories: 'food',
-      size: 'L',
-    },
-    {
-      id: 2,
-      title: 'Naa Nii',
-      description:
-        'Cà phê là một mặt hàng xuất khẩu lớn: đứng đầu trong số các mặt hàng xuất khẩu nông nghiệp tại nhiều quốc gia và là một trong những mặt hàng xuất khẩu nông nghiệp hợp pháp lớn nhất trên thế giới.[4][9] Đây cũng là loại hàng hóa có giá trị xuất khẩu nhất của các quốc gia đang phát triển. Cũng nhờ vậy, thị trường Read more',
-      price: '47',
-      image:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6wMUznmg4JxQZECDFV5z4e60ghw62ynKyBQ&usqp=CAU',
-      quality: 11,
-      categories: 'food',
-      size: 'L',
-    },
-    {
-      id: 3,
-      title: 'Naa Nii',
-      description:
-        'Cà phê là một mặt hàng xuất khẩu lớn: đứng đầu trong số các mặt hàng xuất khẩu nông nghiệp tại nhiều quốc gia và là một trong những mặt hàng xuất khẩu nông nghiệp hợp pháp lớn nhất trên thế giới.[4][9] Đây cũng là loại hàng hóa có giá trị xuất khẩu nhất của các quốc gia đang phát triển. Cũng nhờ vậy, thị trường Read more',
-      price: '47',
-      image:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6wMUznmg4JxQZECDFV5z4e60ghw62ynKyBQ&usqp=CAU',
-      quality: 12,
-      categories: 'food',
-      size: 'L',
-    },
-    {
-      id: 4,
-      title: 'Naa Nii',
-      description:
-        'Cà phê là một mặt hàng xuất khẩu lớn: đứng đầu trong số các mặt hàng xuất khẩu nông nghiệp tại nhiều quốc gia và là một trong những mặt hàng xuất khẩu nông nghiệp hợp pháp lớn nhất trên thế giới.[4][9] Đây cũng là loại hàng hóa có giá trị xuất khẩu nhất của các quốc gia đang phát triển. Cũng nhờ vậy, thị trường Read more',
-      price: '47',
-      image:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6wMUznmg4JxQZECDFV5z4e60ghw62ynKyBQ&usqp=CAU',
-      quality: 14,
-      categories: 'food',
-      size: 'L',
-    },
-  ]);
+  const {data, loading, error, refresh, setData} = useFirestoreCollection(
+    collection,
+    pageSize,
+    page,
+  );
+
   // ------------------------ Search function ----------------------
   const [search, setSearch] = useState('');
-  const searchFilterFunction = () => {
-    console.log('Search');
-  };
+  const [filteredDataSource, setFilteredDataSource] = useState([]);
+  const [masterDataSource, setMasterDataSource] = useState([]);
+  // const searchFilterFunction = text => {
+  //   console.log(data);
+  //   if (text !== '') {
+  //     const datasearched = data.filter(item =>
+  //       item.name
+  //         .toUpperCase()
+  //         .includes(text.toUpperCase().trim().replace(/\s/g, '')),
+  //     );
+  //     setData(datasearched);
+  //     console.log(data);
+  //   } else {
+  //     setFilteredDataSource(data);
+  //     console.log('first');
+  //   }
+  //   setSearch(text);
+  useEffect(() => {
+    fetchProduct();
+  }, []);
+  const fetchProduct = useCallback(async () => {
+    try {
+      if (data) {
+        setFilteredDataSource(data);
+        setMasterDataSource(data);
+      }
+    } catch (error) {
+    } finally {
+    }
+  }, []); // };
 
+  const searchFilterFunction = text => {
+    if (text) {
+      const newData = masterDataSource.filter(item => {
+        const itemData = item.name ? item.name.toUpperCase() : ''.toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setFilteredDataSource(newData);
+      setSearch(text);
+    } else {
+      setFilteredDataSource(masterDataSource);
+      setSearch(text);
+    }
+  };
   //--------------- Header ----------------------
-  const headerproduct = () => {
+  const headerproduct = ({item}) => {
     return (
       <View style={styles.header}>
         <TextInput
           style={styles.textInputStyle}
-          onChangeText={searchFilterFunction()}
+          onChangeText={text => searchFilterFunction(text)}
           value={search}
           underlineColorAndroid="transparent"
           placeholder="Search Here"
@@ -83,7 +88,9 @@ const Product = ({navigation}) => {
             <Text>25 product found</Text>
           </View>
           <View>
-            <TouchableOpacity style={styles.buttonAdd}>
+            <TouchableOpacity
+              style={styles.buttonAdd}
+              onPress={() => navigation.navigate('addNew', {item})}>
               <Text style={{fontWeight: 'bold'}}>Add New</Text>
             </TouchableOpacity>
           </View>
@@ -97,31 +104,49 @@ const Product = ({navigation}) => {
     return (
       <TouchableOpacity
         style={styles.containerItem}
-        onPress={() => navigation.navigate('Details', {item})}>
+        onPress={() => navigation.navigate('Detail', {item})}>
         <Image
           source={{
-            uri: `${item.image}`,
+            uri: `${item.img}`,
           }}
           style={styles.imageItem}
         />
         <View style={styles.bodyItem}>
-          <Text style={styles.titleItem}>{item.title}</Text>
-          <Text styles={styles.descriptionItem}>{item.quality}</Text>
+          <Text style={styles.titleItem}>{item.name}</Text>
           <Text style={styles.priceItems}>${item.price}</Text>
         </View>
       </TouchableOpacity>
     );
   };
+
+  // --------------- show data----------------------------
+  useEffect(() => {
+    refresh();
+  }, []);
+  if (error) {
+    return <Text>Error: {error.message}</Text>;
+  }
+
   return (
-    <FlatList
-      style={styles.container}
-      data={data}
-      ListHeaderComponent={headerproduct}
-      showsVerticalScrollIndicator={false}
-      numColumns={2}
-      renderItem={({item}) => <Item item={item} />}
-      keyExtractor={item => item.id}
-    />
+    <>
+      {loading ? (
+        <ActivityIndicator color="#00ff00" size="large" />
+      ) : (
+        <FlatList
+          style={styles.container}
+          data={filteredDataSource}
+          ListHeaderComponent={headerproduct}
+          showsVerticalScrollIndicator={false}
+          numColumns={2}
+          keyExtractor={item => item.id}
+          onRefresh={refresh}
+          renderItem={({item}) => {
+            return <Item item={item} />;
+          }}
+          refreshing={loading}
+        />
+      )}
+    </>
   );
 };
 
@@ -129,7 +154,6 @@ export default Product;
 
 const styles = StyleSheet.create({
   container: {
-    // margin: 10,
     backgroundColor: '#ffff',
   },
   containerItem: {
@@ -148,7 +172,6 @@ const styles = StyleSheet.create({
     margin: 7,
   },
   bodyItem: {
-    // marginLeft: 10,
     marginBottom: 5,
     alignItems: 'center',
   },
@@ -168,7 +191,6 @@ const styles = StyleSheet.create({
     marginLeft: '5%',
   },
   header: {
-    // margin: 0,
     padding: 0,
     width: '90%',
     marginLeft: '5%',
@@ -193,7 +215,4 @@ const styles = StyleSheet.create({
   priceItems: {
     fontWeight: 'bold',
   },
-  // descriptionItem: {
-
-  // },
 });

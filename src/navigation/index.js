@@ -7,12 +7,16 @@ import Icon from 'react-native-vector-icons/Feather';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Loading from '../components/Loading';
 import MyButton from '../components/MyButton';
+import Home from '../screens/Home';
+
 import MyTextInput from '../components/MyTextInput';
 import Login from '../components/signIn/Login';
-import Main from '../components/signIn/Main';
 import SignUp from '../components/signIn/SignUp';
-import Details from '../screens/Details';
+import CreateProduct from '../screens/CreateProduct';
 import Product from '../screens/Product';
+import Details from '../screens/ProductDetails';
+import Profile from '../screens/Profile';
+import UpdateProduct from '../screens/UpdateProduct';
 function Feed() {
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
@@ -32,13 +36,6 @@ function Feed() {
   );
 }
 
-function Profile() {
-  return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>Profile!</Text>
-    </View>
-  );
-}
 function ManagementRevenue() {
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
@@ -62,13 +59,15 @@ function MyTabs() {
       initialRouteName="Loading"
       screenOptions={{
         tabBarActiveTintColor: '#e91e63',
+        tabBarShowLabel: false,
       }}>
       <Tab.Screen
-        name="Feed"
-        component={Feed}
+        name="Home"
+        component={Home}
         options={{
-          tabBarLabel: 'Home',
-          tabBarIcon: () => <Icon name="home" size={20} />,
+          headerShown: false,
+
+          tabBarIcon: () => <Icon name="home" size={20} color="black" />,
         }}
       />
       <Tab.Screen
@@ -76,7 +75,7 @@ function MyTabs() {
         component={ManagementRevenue}
         options={{
           tabBarLabel: 'Revenue',
-          tabBarIcon: () => <Icon name="tag" size={20} />,
+          tabBarIcon: () => <Icon name="tag" size={20} color="black" />,
         }}
       />
       <Tab.Screen
@@ -85,7 +84,7 @@ function MyTabs() {
         options={{
           headerShown: false,
           tabBarLabel: 'Updates',
-          tabBarIcon: () => <Icon name="coffee" size={20} />,
+          tabBarIcon: () => <Icon name="coffee" size={20} color="black" />,
         }}
       />
       <Tab.Screen
@@ -93,7 +92,7 @@ function MyTabs() {
         component={ManagementProduct}
         options={{
           tabBarLabel: 'Management',
-          tabBarIcon: () => <Icon name="list" size={20} />,
+          tabBarIcon: () => <Icon name="list" size={20} color="black" />,
         }}
       />
       <Tab.Screen
@@ -101,19 +100,12 @@ function MyTabs() {
         component={Profile}
         options={{
           tabBarLabel: 'Profile',
-          tabBarIcon: () => <Icon name="user" size={20} />,
+          tabBarIcon: () => <Icon name="user" size={20} color="black" />,
         }}
       />
       <Tab.Screen
         name="Loading"
         component={Loading}
-        options={{
-          tabBarButton: props => null, //like this
-        }}
-      />
-      <Tab.Screen
-        name="Main"
-        component={Main}
         options={{
           tabBarButton: props => null, //like this
         }}
@@ -144,11 +136,14 @@ export default function Navigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator
+        initialRouteName="Tab"
         screenOptions={{
           headerShown: false,
         }}>
         <Stack.Screen name="Tab" component={MyTabs} />
-        <Stack.Screen name="Details" component={Details} />
+        <Stack.Screen name="Detail" component={Details} />
+        <Stack.Screen name="addNew" component={CreateProduct} />
+        <Stack.Screen name="productUpdate" component={UpdateProduct} />
       </Stack.Navigator>
     </NavigationContainer>
   );
