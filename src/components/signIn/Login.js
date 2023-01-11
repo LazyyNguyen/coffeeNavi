@@ -31,37 +31,45 @@ const Login = ({navigation}) => {
         <Text style={styles.title}>Hey!</Text>
         <View style={{flexDirection: 'row'}}>
           <Text style={styles.title}>Welcome to </Text>
-          <Text style={[styles.title, {fontWeight: '700'}]}>Na'vi</Text>
+          <Text
+            style={[styles.title, {fontFamily: 'PPMonumentExtended-Black'}]}>
+            Na'vi
+          </Text>
         </View>
       </View>
       {errorMessage && <Text style={{color: 'red'}}>{errorMessage}</Text>}
-      <MyTextInput
-        placeholder="Email"
-        onChangeText={e => setEmail(e)}
-        value={email}
-        title="Email"
-      />
-      <MyTextInput
-        placeholder="Password"
-        autoCapitalize="none"
-        onChangeText={p => setPassword(p)}
-        value={password}
-        title="Password"
-      />
-      <MyButton lable="Login" onPress={handleLogin} size="large" />
+      <View style={{width: '90%'}}>
+        <MyTextInput
+          placeholder="Email"
+          onChangeText={e => setEmail(e)}
+          value={email}
+          title="Email"
+        />
+        <MyTextInput
+          placeholder="Password"
+          autoCapitalize="none"
+          secureTextEntry={true}
+          onChangeText={p => setPassword(p)}
+          value={password}
+          title="Password"
+        />
+        <MyButton lable="Login" onPress={handleLogin} size="large" />
+      </View>
     </View>
   );
 };
 export default Login;
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#552619',
+    width: '100%',
+    backgroundColor: '#ffffff',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
   title: {
-    fontSize: 40,
-    color: '#FFB067',
+    fontSize: 25,
+    color: '#333333',
+    fontFamily: 'PPMonumentExtended-Regular',
   },
 });

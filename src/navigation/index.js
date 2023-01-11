@@ -47,15 +47,7 @@ function MyTabs() {
         options={{
           headerShown: false,
 
-          tabBarIcon: () => <Icon name="home" size={20} color="black" />,
-        }}
-      />
-      <Tab.Screen
-        name="ManagementRevenue"
-        component={ManagementRevenue}
-        options={{
-          tabBarLabel: 'Revenue',
-          tabBarIcon: () => <Icon name="tag" size={20} color="black" />,
+          tabBarIcon: () => <Icon name="home" size={22} color="black" />,
         }}
       />
       <Tab.Screen
@@ -63,16 +55,9 @@ function MyTabs() {
         component={Product}
         options={{
           headerShown: false,
+          headerStyle: {color: 'black'},
           tabBarLabel: 'Updates',
-          tabBarIcon: () => <Icon name="coffee" size={20} color="black" />,
-        }}
-      />
-      <Tab.Screen
-        name="ManagementProduct"
-        component={ManagementProduct}
-        options={{
-          tabBarLabel: 'Management',
-          tabBarIcon: () => <Icon name="list" size={20} color="black" />,
+          tabBarIcon: () => <Icon name="coffee" size={22} color="black" />,
         }}
       />
       <Tab.Screen
@@ -80,7 +65,7 @@ function MyTabs() {
         component={Profile}
         options={{
           tabBarLabel: 'Profile',
-          tabBarIcon: () => <Icon name="user" size={20} color="black" />,
+          tabBarIcon: () => <Icon name="user" size={22} color="black" />,
           headerShown: false,
         }}
       />

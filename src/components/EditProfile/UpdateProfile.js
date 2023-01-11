@@ -7,27 +7,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import {ScrollView} from 'react-native-gesture-handler';
 import MyButton from '../MyButton';
 import MyTextInput from '../MyTextInput';
-export function choosePic() {
-  ImagePicker.openPicker({
-    width: 400,
-    height: 400,
-    cropping: true,
-  }).then(async image => {
-    const imageName = image.path.substring(image.path.lastIndexOf('/') + 1);
-    const bucketFile = `images/${imageName}`;
-    const pathToFile = image.path;
-    const url = storage().ref(bucketFile);
-    await url
-      .putFile(pathToFile)
-      .then(async () => {
-        const imgUrl = await url.getDownloadURL();
-        alert('Image uploaded to the bucket!');
-        console.log(' link 2: ', imgUrl);
-        onChangeImage(imgUrl);
-      })
-      .catch(e => console.log('uploading image error => ', e));
-  });
-}
+
 const UpdateProfile = ({navigation, route}) => {
   const {item} = route.params || {};
 
@@ -72,7 +52,27 @@ const UpdateProfile = ({navigation, route}) => {
   }
 
   // --------------choose image--------------------------
-
+  function choosePic() {
+    ImagePicker.openPicker({
+      width: 400,
+      height: 400,
+      cropping: true,
+    }).then(async image => {
+      const imageName = image.path.substring(image.path.lastIndexOf('/') + 1);
+      const bucketFile = `images/${imageName}`;
+      const pathToFile = image.path;
+      const url = storage().ref(bucketFile);
+      await url
+        .putFile(pathToFile)
+        .then(async () => {
+          const imgUrl = await url.getDownloadURL();
+          alert('Image uploaded to the bucket!');
+          console.log(' link 2: ', imgUrl);
+          onChangeImage(imgUrl);
+        })
+        .catch(e => console.log('uploading image error => ', e));
+    });
+  }
   return (
     <ScrollView>
       <View style={styles.profile}>
@@ -97,12 +97,12 @@ const UpdateProfile = ({navigation, route}) => {
               choosePic();
             }}>
             <Text
-              style={{textAlign: 'center', fontWeight: '700', color: 'white'}}>
+              style={{textAlign: 'center', fontWeight: '700', color: '#333333'}}>
               Change picture
             </Text>
           </TouchableOpacity>
         </View>
-        <View style={{marginHorizontal: 15}}>
+        <View style={{marginHorizontal: 20}}>
           <View key={item.id}>
             <View style={{marginBottom: 12}}>
               <MyTextInput
@@ -159,14 +159,15 @@ export default UpdateProfile;
 
 const styles = StyleSheet.create({
   profile: {
-    backgroundColor: '#552619',
-
+    backgroundColor: '#ffffff',
     height: '100%',
     marginVertical: 0,
     paddingVertical: 0,
+    paddingBottom: 30,
   },
   part1Profile: {
     height: 100,
+    backgroundColor: '#CCFF00',
   },
   part2Profile: {
     position: 'relative',

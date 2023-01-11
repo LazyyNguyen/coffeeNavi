@@ -33,23 +33,31 @@ const Product = ({navigation}) => {
   const headerproduct = ({item}) => {
     return (
       <View style={styles.header}>
-        <TextInput
-          style={styles.textInputStyle}
-          onChangeText={text => searchFilterFunction(text)}
-          value={search}
-          underlineColorAndroid="transparent"
-          placeholder="Search Here"
-        />
+        <View>
+          <Text style={styles.colorText2}>Na'vi</Text>
+          <Text>25 product found</Text>
+        </View>
         <View style={styles.textHeader}>
-          <View>
-            <Text style={styles.title}>Na'vi</Text>
-            <Text>25 product found</Text>
-          </View>
+          <TextInput
+            style={styles.textInputStyle}
+            onChangeText={text => searchFilterFunction(text)}
+            value={search}
+            underlineColorAndroid="transparent"
+            placeholder="Search Here"
+            placeholderTextColor="#3333"
+          />
           <View>
             <TouchableOpacity
               style={styles.buttonAdd}
               onPress={() => navigation.navigate('addNew', {item})}>
-              <Text style={{fontWeight: 'bold'}}>Add New</Text>
+              <Text
+                style={{
+                  // fontWeight: 'bold',
+                  color: '#333333',
+                  fontFamily: 'PPMonumentExtended-Black',
+                }}>
+                Add
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -95,6 +103,10 @@ const Product = ({navigation}) => {
           data={filteredDataSource || data}
           ListHeaderComponent={headerproduct}
           showsVerticalScrollIndicator={false}
+          // stickyHeaderIndices={[0]}
+          stickyHeaderIndices={[0]}
+          // invertStickyHeaders
+          // StickyHeaderComponent={headerproduct}
           numColumns={2}
           keyExtractor={item => item.id}
           onRefresh={refresh}
@@ -134,43 +146,64 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   titleItem: {
-    fontWeight: 'bold',
-    fontSize: 20,
+    color: '#333333',
+    fontFamily: 'PPMonumentExtended-Black',
+    fontSize: 13,
   },
   textInputStyle: {
     height: 40,
     borderWidth: 1,
     paddingLeft: 20,
-    margin: 5,
+    // margin: 5,
     borderColor: '#009688',
     backgroundColor: '#FFFFFF',
     borderRadius: 30,
-    width: '90%',
-    marginLeft: '5%',
+    color: '#333333',
+    width: '70%',
+    // marginLeft: '5%',
   },
   header: {
-    padding: 0,
-    width: '90%',
-    marginLeft: '5%',
+    marginVertical: 10,
+    marginHorizontal: 20,
+    backgroundColor: '#ffffff',
+
+    // marginLeft: '5%',
   },
   title: {
     fontSize: 28,
     fontFamily: 'PPMonumentExtended-Black',
   },
   textHeader: {
+    width: '100%',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    // backgroundColor: ''
   },
   buttonAdd: {
     alignItems: 'center',
     backgroundColor: '#CCFF00',
     padding: 10,
-    borderRadius: 10,
-    width: 100,
-    marginTop: 7,
+    paddingHorizontal: 20,
+    borderRadius: 90,
+    color: '#333333',
+    // width: ,
+    // height: 50,
+    // marginTop: 7,
   },
   priceItems: {
-    fontWeight: 'bold',
+    color: '#333333',
+    fontFamily: 'PPMonumentExtended-Regular',
+    fontSize: 10,
+  },
+  colorText: {
+    color: '#333333',
+    fontFamily: 'PPMonumentExtended-Regular',
+    fontSize: 10,
+  },
+  colorText2: {
+    color: '#333333',
+    fontFamily: 'PPMonumentExtended-Black',
+    fontSize: 30,
   },
 });

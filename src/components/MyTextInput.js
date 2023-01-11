@@ -4,7 +4,14 @@ import {Width} from '../assets/ScreenDimensions';
 
 const TYPES = ['base', 'rounder'];
 
-const MyTextInput = ({placeholder, type, onChangeText, title, value}) => {
+const MyTextInput = ({
+  secureTextEntry,
+  placeholder,
+  type,
+  onChangeText,
+  title,
+  value,
+}) => {
   const inputType = TYPES.includes(type) ? type : 'base';
   const inputStyle = {
     height: 50,
@@ -22,6 +29,7 @@ const MyTextInput = ({placeholder, type, onChangeText, title, value}) => {
       </View>
       <TextInput
         value={value}
+        secureTextEntry={secureTextEntry}
         onChangeText={onChangeText}
         placeholderTextColor="#7C7A7A"
         placeholder={placeholder}
@@ -35,7 +43,7 @@ export default MyTextInput;
 
 const styles = StyleSheet.create({
   component: {
-    width: Width - 30,
+    width: '100%',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -48,7 +56,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   title: {
-    color: 'white',
+    color: '#333333',
     fontFamily: 'PPMonumentExtended-Regular',
     fontSize: 15,
   },

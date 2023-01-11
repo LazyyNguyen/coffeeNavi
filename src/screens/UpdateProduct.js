@@ -80,71 +80,61 @@ const UpdateProduct = ({navigation, route}) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.headerAdd}>
-        <Icon name="arrow-back-ios" size={30} onPress={navigation.goBack} />
-        <Text style={styles.titleAdd}>Update Product</Text>
-      </View>
-      <TouchableOpacity
-        style={{
-          flexDirection: 'row',
-          marginTop: 20,
-          justifyContent: 'space-between',
-        }}>
-        <Image
-          source={{
-            uri: `${isImage}`,
-          }}
-          value={isImage}
-          style={styles.imageAdd}
-        />
-        <MyButton
-          extraStyle={{
-            alignItems: 'center',
-            backgroundColor: '#111',
-            padding: 10,
-            borderRadius: 10,
-            width: 120,
+      <View style={{marginHorizontal: 20, marginVertical: 15}}>
+        <View style={styles.headerAdd}>
+          <Icon
+            color="#333333"
+            name="arrow-back-ios"
+            size={30}
+            onPress={navigation.goBack}
+          />
+          <Text style={styles.colorText}>Update Product</Text>
+        </View>
+        <TouchableOpacity
+          style={{
+            flexDirection: 'row',
             marginTop: 20,
-          }}
-          onPress={() => {
-            choosePic();
-          }}
-          lable="image"
+            justifyContent: 'space-between',
+          }}>
+          <Image
+            source={{
+              uri: `${isImage}`,
+            }}
+            value={isImage}
+            style={styles.imageAdd}
+          />
+          <MyButton
+            onPress={() => {
+              choosePic();
+            }}
+            lable="Edit"
+          />
+        </TouchableOpacity>
+        <MyTextInput onChangeText={onChangeNameText} value={textName} />
+        <MyTextInput
+          onChangeText={onChangeDescriptionText}
+          value={textDescription}
         />
-      </TouchableOpacity>
-      <MyTextInput onChangeText={onChangeNameText} value={textName} />
-      <MyTextInput
-        onChangeText={onChangeDescriptionText}
-        value={textDescription}
-      />
-      <MyTextInput
-        onChangeText={onChangePriceText}
-        value={textPrice.toLocaleString(undefined, {minimumFractionDigits: 2})}
-      />
-      <MyTextInput
-        onChangeText={onChangeCategoriesText}
-        value={textCategories}
-      />
-      <Pressable style={styles.buttonSave} onPress={() => ButtonSave()}>
-        <Text style={styles.textButton}>SUBMIT</Text>
-      </Pressable>
+        <MyTextInput
+          onChangeText={onChangePriceText}
+          value={textPrice.toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+          })}
+        />
+        <MyTextInput
+          onChangeText={onChangeCategoriesText}
+          value={textCategories}
+        />
+        <MyButton lable="Update" onPress={() => ButtonSave()} />
+      </View>
     </View>
   );
 };
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 15,
-    marginVertical: 15,
-  },
-  buttonSave: {
-    marginVertical: 30,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 10,
-    elevation: 3,
-    backgroundColor: '#1ecfea',
+    backgroundColor: '#ffffff',
+    width: '100%',
+    height: '100%',
   },
   textButton: {
     fontSize: 16,
@@ -165,6 +155,11 @@ const styles = StyleSheet.create({
   imageAdd: {
     width: 100,
     height: 100,
+  },
+  colorText: {
+    color: '#333333',
+    fontFamily: 'PPMonumentExtended-Black',
+    fontSize: 20,
   },
 });
 

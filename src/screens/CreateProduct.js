@@ -72,8 +72,13 @@ const CreateProduct = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.headerAdd}>
-        <Icon name="arrow-back-ios" size={30} onPress={navigation.goBack} />
-        <Text style={styles.titleAdd}>Add New Product</Text>
+        <Icon
+          color="#333333"
+          name="arrow-back-ios"
+          size={30}
+          onPress={navigation.goBack}
+        />
+        <Text style={styles.colorText}>Add New Product</Text>
       </View>
       <MyButton
         onPress={() => {
@@ -102,15 +107,15 @@ const CreateProduct = ({navigation}) => {
         value={textCategories}
         placeholder="Enter categories"
       />
-      <Pressable style={styles.buttonSave} onPress={() => ButtonSave()}>
-        <Text style={styles.textButton}>SAVE USER</Text>
-      </Pressable>
+      <MyButton onPress={() => ButtonSave()} lable="Add New" />
     </View>
   );
 };
 const styles = StyleSheet.create({
   container: {
-    margin: 10,
+    // margin: 10,
+    marginHorizontal: 20,
+    marginVertical: 10,
   },
   buttonSave: {
     marginVertical: 30,
@@ -137,6 +142,11 @@ const styles = StyleSheet.create({
   headerAdd: {
     display: 'flex',
     flexDirection: 'row',
+  },
+  colorText: {
+    color: '#333333',
+    fontFamily: 'PPMonumentExtended-Black',
+    fontSize: 20,
   },
 });
 

@@ -52,53 +52,85 @@ const Details = ({navigation, route}) => {
   return (
     <SafeAreaView
       style={{
-        marginHorizontal: 15,
-        marginVertical: 15,
+        backgroundColor: '#ffffff',
+        width: '100%',
+        height: '100%',
       }}>
-      <View style={styles.header}>
-        <Icon name="arrow-back-ios" size={28} onPress={navigation.goBack} />
-        <Text style={{fontSize: 25, fontWeight: '700'}}>{item.name}</Text>
-      </View>
-      <View>
-        <View style={styles.infoItem}>
-          <Text style={{fontWeight: '700'}}>
-            Price:{' '}
-            {item.price.toLocaleString(undefined, {minimumFractionDigits: 2})}₫
-          </Text>
-          <Text style={{fontWeight: '700'}}>Categories: {item.category}</Text>
-        </View>
-        <View
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: 280,
-          }}>
-          <Image
-            source={{
-              uri: `${item.img}`,
-            }}
-            style={styles.imageItemDetail}
-          />
-        </View>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.details}>
-            <Text style={styles.description}>{item.description}</Text>
+      <View
+        style={{
+          marginHorizontal: 20,
+          marginVertical: 15,
+        }}>
+        <View style={styles.header}>
+          <View>
+            <Icon
+              name="arrow-back-ios"
+              color="#333333"
+              size={28}
+              onPress={navigation.goBack}
+            />
           </View>
-        </ScrollView>
-        <View>
-          <MyButton
-            onPress={() => navigation.navigate('productUpdate', {item})}
-            lable="Update"></MyButton>
+          <Text
+            onPress={navigation.goBack}
+            style={{
+              position: 'absolute',
+              textAlign: 'center',
+              // right: 0,
+              width: '100%',
+              color: '#333333',
+              fontFamily: 'PPMonumentExtended-Black',
+              fontSize: 25,
+              // fontWeight: '700',
+            }}>
+            {item.name}
+          </Text>
         </View>
-        <TouchableOpacity style={{marginTop: 10, marginBottom: 10}}>
-          <MyButton
-            lable="Delete"
-            type="secondary"
-            onPress={() => {
-              showConfirmDialog();
-            }}
-          />
-        </TouchableOpacity>
+        <View style={{marginVertical: 10}}>
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '100%',
+              height: 280,
+              marginVertical: 15,
+            }}>
+            <Image
+              source={{
+                uri: `${item.img}`,
+              }}
+              style={styles.imageItemDetail}
+            />
+          </View>
+          <View style={styles.infoItem}>
+            <Text style={styles.colorText}>
+              <Text style={styles.colorText2}>Price:</Text>{' '}
+              {item.price.toLocaleString(undefined, {minimumFractionDigits: 2})}
+              ₫
+            </Text>
+            <Text style={styles.colorText}>
+              <Text style={styles.colorText2}>Categories:</Text> {item.category}
+            </Text>
+          </View>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <View style={styles.details}>
+              <Text style={styles.colorText}>{item.description}</Text>
+            </View>
+          </ScrollView>
+          <View>
+            <MyButton
+              onPress={() => navigation.navigate('productUpdate', {item})}
+              lable="Update"></MyButton>
+          </View>
+          <TouchableOpacity style={{marginTop: 10, marginBottom: 10}}>
+            <MyButton
+              lable="Delete"
+              type="secondary"
+              onPress={() => {
+                showConfirmDialog();
+              }}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -109,9 +141,10 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
+    height: 50,
   },
   details: {
-    paddingTop: 40,
+    // paddingTop: 0,
     paddingBottom: 60,
     backgroundColor: 'while',
     borderTopRightRadius: 40,
@@ -124,11 +157,23 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   infoItem: {
-    marginTop: 20,
+    // marginTop: 20,
   },
   imageItemDetail: {
-    height: 220,
-    width: 220,
-    borderRadius: 20,
+    height: '100%',
+    width: '100%',
+    borderRadius: 15,
+  },
+  colorText: {
+    color: '#333333',
+    fontFamily: 'PPMonumentExtended-Regular',
+    fontSize: 13,
+    paddingVertical: 5,
+  },
+  colorText2: {
+    color: '#333333',
+    fontFamily: 'PPMonumentExtended-Black',
+    fontSize: 13,
+    // paddingVertical: ,
   },
 });
