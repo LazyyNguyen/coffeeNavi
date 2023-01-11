@@ -19,26 +19,17 @@ const avt =
   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTL_orYH8FKWYS5w45tZdya1Q32e6W0s0ug3g&usqp=CAU';
 
 import SlideItem from '../components/SlideItem';
-const Data = [
-  {title: 'Sells', total: 2550000},
-  {title: 'Users', total: 350},
-  {title: 'Order', total: 4500},
-  {title: 'Product', total: 30},
-];
+
 
 const FlatListSlide = () => {
-  const [data, setData] = useState(Data);
+  // const [data, setData] = useState(Data);
   return (
-    <SwiperFlatList
-      horizontal
-      autoplay
-      autoplayDelay={4}
-      autoplayLoop
-      index={2}
-      // StickyHeaderComponent={Header}
-      data={data}
-      renderItem={({item}) => <SlideItem data={item} />}
-    />
+    <SwiperFlatList autoplay autoplayDelay={2} autoplayLoop>
+      <SlideItem type="sell" />
+      <SlideItem type="user" />
+      <SlideItem type="product" />
+      <SlideItem type="order" />
+    </SwiperFlatList>
   );
 };
 

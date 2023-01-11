@@ -27,7 +27,7 @@ const TopItem = ({data, color}) => {
         />
       </View>
       <View style={[styles.info, {backgroundColor: color}]}>
-        <Text style={styles.total}>{data.quantity}cups</Text>
+        <Text style={styles.total}>{data.quantityOrder}cups</Text>
         <Text style={styles.name}>{data.name}</Text>
       </View>
     </View>
