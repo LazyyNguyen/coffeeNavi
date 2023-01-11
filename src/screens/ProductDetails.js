@@ -50,15 +50,22 @@ const Details = ({navigation, route}) => {
   }
 
   return (
-    <SafeAreaView style={{backgroundColor: 'white'}}>
+    <SafeAreaView
+      style={{
+        marginHorizontal: 15,
+        marginVertical: 15,
+      }}>
       <View style={styles.header}>
         <Icon name="arrow-back-ios" size={28} onPress={navigation.goBack} />
-        <Text style={{fontSize: 20, fontWeight: 'bold'}}>Navi</Text>
+        <Text style={{fontSize: 25, fontWeight: '700'}}>{item.name}</Text>
       </View>
       <View>
         <View style={styles.infoItem}>
-          <Text>Price: {item.price}</Text>
-          <Text>Categories: {item.category}</Text>
+          <Text style={{fontWeight: '700'}}>
+            Price:{' '}
+            {item.price.toLocaleString(undefined, {minimumFractionDigits: 2})}₫
+          </Text>
+          <Text style={{fontWeight: '700'}}>Categories: {item.category}</Text>
         </View>
         <View
           style={{
@@ -100,13 +107,10 @@ export default Details;
 
 const styles = StyleSheet.create({
   header: {
-    paddingVertical: 20,
     flexDirection: 'row',
     alignItems: 'center',
-    marginHorizontal: 20,
   },
   details: {
-    paddingHorizontal: 20,
     paddingTop: 40,
     paddingBottom: 60,
     backgroundColor: 'while',
@@ -120,7 +124,7 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   infoItem: {
-    marginLeft: 40,
+    marginTop: 20,
   },
   imageItemDetail: {
     height: 220,

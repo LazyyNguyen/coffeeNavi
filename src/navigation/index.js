@@ -12,10 +12,10 @@ import Login from '../components/signIn/Login';
 import SignUp from '../components/signIn/SignUp';
 import CreateProduct from '../screens/CreateProduct';
 import Home from '../screens/Home';
+import Product from '../screens/Product';
 import Details from '../screens/ProductDetails';
 import Profile from '../screens/Profile';
 import UpdateProduct from '../screens/UpdateProduct';
-import Product from '../screens/Product';
 
 function ManagementRevenue() {
   return (
@@ -81,6 +81,7 @@ function MyTabs() {
         options={{
           tabBarLabel: 'Profile',
           tabBarIcon: () => <Icon name="user" size={20} color="black" />,
+          headerShown: false,
         }}
       />
       <Tab.Screen
@@ -95,17 +96,6 @@ function MyTabs() {
         component={SignUp}
         options={{
           tabBarButton: props => null, //like this
-        }}
-      />
-      <Tab.Screen
-        name="Login"
-        component={Login}
-        options={{
-          tabBarLabel: () => {
-            return null;
-          },
-          tabBarButton: props => null, //like this
-          headerShown: false,
         }}
       />
     </Tab.Navigator>
@@ -127,6 +117,7 @@ export default function Navigation() {
         <Stack.Screen name="productUpdate" component={UpdateProduct} />
         <Stack.Screen name="UpdateProfile" component={UpdateProfile} />
         <Stack.Screen name="ChangePassword" component={ChangePassword} />
+        <Stack.Screen name="Login" component={Login} />
       </Stack.Navigator>
     </NavigationContainer>
   );

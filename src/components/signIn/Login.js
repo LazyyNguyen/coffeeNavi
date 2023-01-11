@@ -42,8 +42,8 @@ const Login = ({navigation}) => {
         title="Email"
       />
       <MyTextInput
-        secureTextEntry
         placeholder="Password"
+        autoCapitalize="none"
         onChangeText={p => setPassword(p)}
         value={password}
         title="Password"

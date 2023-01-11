@@ -1,3 +1,4 @@
+import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import React, {useEffect} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
@@ -5,8 +6,13 @@ import IconFeature from 'react-native-vector-icons/Feather';
 import Icon from 'react-native-vector-icons/Ionicons';
 import useFirestoreCollection from '../hooks/useFirestoreCollection';
 
+import {TouchableOpacity} from 'react-native-gesture-handler';
 import MyButton from '../components/MyButton';
-
+export const handleLogout = () => {
+  auth()
+    .signOut()
+    .then(() => alert('Signed out!'));
+};
 const collection = firestore().collection('profile');
 const pageSize = 10;
 const page = 10;
@@ -28,7 +34,6 @@ const Profile = ({navigation}) => {
   if (error) {
     return <Text>Error: {error.message}</Text>;
   }
-
   return (
     <View style={styles.profile}>
       {data.map(item => (
@@ -44,15 +49,34 @@ const Profile = ({navigation}) => {
                 width: 85,
                 borderRadius: 50,
                 alignSelf: 'center',
-                // position: 'absolute',
-                top: -35,
+                position: 'absolute',
+                top: -45,
                 borderWidth: 4,
                 borderColor: 'white',
               }}
             />
-            <Text style={{textAlign: 'center', fontWeight: '700'}}>
-              LazyyNguyen
-            </Text>
+            <TouchableOpacity
+              onPress={handleLogout}
+              style={{
+                alignSelf: 'center',
+                // top: -25,
+                // height: 125,
+                marginTop: 10,
+                width: 65,
+                padding: 5,
+                // backgroundColor: '#FFFFFF50',
+                // borderRadius: 100,
+              }}>
+              <Text
+                style={{
+                  fontWeight: '700',
+                  marginTop: 25,
+                  textAlign: 'center',
+                  opacity: 1,
+                }}>
+                Log out
+              </Text>
+            </TouchableOpacity>
           </View>
           <View style={{marginHorizontal: 15}}>
             <Text style={{fontWeight: '700', fontSize: 18, marginBottom: 20}}>

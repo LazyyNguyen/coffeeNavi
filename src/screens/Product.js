@@ -1,5 +1,5 @@
 import firestore from '@react-native-firebase/firestore';
-import React, {useCallback, useEffect, useState} from 'react';
+import React from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -18,45 +18,18 @@ const pageSize = 10;
 const page = 1;
 
 const Product = ({navigation}) => {
-  const {data, loading, error, refresh} = useFirestoreCollection(
-    collection,
-    pageSize,
-    page,
-  );
+  const {
+    data,
+    loading,
+    error,
+    refresh,
+    searchFilterFunction,
+    search,
+    filteredDataSource,
+  } = useFirestoreCollection(collection, pageSize, page);
 
-  // ------------------------ Search function ----------------------
-  const [search, setSearch] = useState('');
-  const [filteredDataSource, setFilteredDataSource] = useState([]);
-  const [masterDataSource, setMasterDataSource] = useState([]);
-  useEffect(() => {
-    fetchProduct();
-  }, []);
-  const fetchProduct = useCallback(async () => {
-    try {
-      if (data) {
-        setFilteredDataSource(data);
-        setMasterDataSource(data);
-      }
-    } catch (error) {
-    } finally {
-    }
-  }, []); // };
-
-  const searchFilterFunction = text => {
-    if (text) {
-      const newData = masterDataSource.filter(item => {
-        const itemData = item.name ? item.name.toUpperCase() : ''.toUpperCase();
-        const textData = text.toUpperCase();
-        return itemData.indexOf(textData) > -1;
-      });
-      setFilteredDataSource(newData);
-      setSearch(text);
-    } else {
-      setFilteredDataSource(masterDataSource);
-      setSearch(text);
-    }
-  };
   //--------------- Header ----------------------
+  console.log(filteredDataSource);
   const headerproduct = ({item}) => {
     return (
       <View style={styles.header}>
@@ -98,16 +71,16 @@ const Product = ({navigation}) => {
         />
         <View style={styles.bodyItem}>
           <Text style={styles.titleItem}>{item.name}</Text>
-          <Text style={styles.priceItems}>${item.price}</Text>
+          <Text style={styles.priceItems}>
+            {item.price.toLocaleString(undefined, {minimumFractionDigits: 2})}₫
+          </Text>
         </View>
       </TouchableOpacity>
     );
   };
 
   // --------------- show data----------------------------
-  useEffect(() => {
-    refresh();
-  }, []);
+
   if (error) {
     return <Text>Error: {error.message}</Text>;
   }
@@ -119,7 +92,7 @@ const Product = ({navigation}) => {
       ) : (
         <FlatList
           style={styles.container}
-          data={filteredDataSource}
+          data={filteredDataSource || data}
           ListHeaderComponent={headerproduct}
           showsVerticalScrollIndicator={false}
           numColumns={2}
