@@ -5,36 +5,17 @@ import {Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import ChangePassword from '../components/EditProfile/ChangePassword';
+import UpdateProfile from '../components/EditProfile/UpdateProfile';
 import Loading from '../components/Loading';
-import MyButton from '../components/MyButton';
-import Home from '../screens/Home';
-
-import MyTextInput from '../components/MyTextInput';
 import Login from '../components/signIn/Login';
 import SignUp from '../components/signIn/SignUp';
 import CreateProduct from '../screens/CreateProduct';
-import Product from '../screens/Product';
+import Home from '../screens/Home';
 import Details from '../screens/ProductDetails';
 import Profile from '../screens/Profile';
 import UpdateProduct from '../screens/UpdateProduct';
-function Feed() {
-  return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>Feed!</Text>
-      <MyTextInput
-        title="UserName"
-        type="rounder"
-        placeholder="Enter Your ..."
-      />
-      <MyTextInput
-        title="UserName"
-        type="rounder"
-        placeholder="Enter Your ..."
-      />
-      <MyButton size="large" lable="Login" />
-    </View>
-  );
-}
+import Product from '../screens/Product';
 
 function ManagementRevenue() {
   return (
@@ -50,7 +31,6 @@ function ManagementProduct() {
     </View>
   );
 }
-const Stack = createNativeStackNavigator();
 
 const Tab = createBottomTabNavigator();
 function MyTabs() {
@@ -131,6 +111,7 @@ function MyTabs() {
     </Tab.Navigator>
   );
 }
+const Stack = createNativeStackNavigator();
 
 export default function Navigation() {
   return (
@@ -144,6 +125,8 @@ export default function Navigation() {
         <Stack.Screen name="Detail" component={Details} />
         <Stack.Screen name="addNew" component={CreateProduct} />
         <Stack.Screen name="productUpdate" component={UpdateProduct} />
+        <Stack.Screen name="UpdateProfile" component={UpdateProfile} />
+        <Stack.Screen name="ChangePassword" component={ChangePassword} />
       </Stack.Navigator>
     </NavigationContainer>
   );

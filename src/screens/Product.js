@@ -18,7 +18,7 @@ const pageSize = 10;
 const page = 1;
 
 const Product = ({navigation}) => {
-  const {data, loading, error, refresh, setData} = useFirestoreCollection(
+  const {data, loading, error, refresh} = useFirestoreCollection(
     collection,
     pageSize,
     page,
@@ -28,21 +28,6 @@ const Product = ({navigation}) => {
   const [search, setSearch] = useState('');
   const [filteredDataSource, setFilteredDataSource] = useState([]);
   const [masterDataSource, setMasterDataSource] = useState([]);
-  // const searchFilterFunction = text => {
-  //   console.log(data);
-  //   if (text !== '') {
-  //     const datasearched = data.filter(item =>
-  //       item.name
-  //         .toUpperCase()
-  //         .includes(text.toUpperCase().trim().replace(/\s/g, '')),
-  //     );
-  //     setData(datasearched);
-  //     console.log(data);
-  //   } else {
-  //     setFilteredDataSource(data);
-  //     console.log('first');
-  //   }
-  //   setSearch(text);
   useEffect(() => {
     fetchProduct();
   }, []);

@@ -16,7 +16,6 @@ import MyButton from '../components/MyButton';
 
 const Details = ({navigation, route}) => {
   const {item} = route.params || {};
-  console.log('navigation');
   // ------------------- Delete Item--------------------
   const showConfirmDialog = () => {
     return Alert.alert(
