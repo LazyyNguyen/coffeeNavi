@@ -65,7 +65,6 @@ const UpdateProduct = ({navigation, route}) => {
       const imageName = image.path.substring(image.path.lastIndexOf('/') + 1);
       const bucketFile = `images/${imageName}`;
       const pathToFile = image.path;
-      console.log('link', pathToFile);
       const url = storage().ref(bucketFile);
       await url
         .putFile(pathToFile)

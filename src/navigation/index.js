@@ -12,10 +12,10 @@ import Login from '../components/signIn/Login';
 import SignUp from '../components/signIn/SignUp';
 import CreateProduct from '../screens/CreateProduct';
 import Home from '../screens/Home';
+import Product from '../screens/Product';
 import Details from '../screens/ProductDetails';
 import Profile from '../screens/Profile';
 import UpdateProduct from '../screens/UpdateProduct';
-import Product from '../screens/Product';
 
 function ManagementRevenue() {
   return (
@@ -81,6 +81,7 @@ function MyTabs() {
         options={{
           tabBarLabel: 'Profile',
           tabBarIcon: () => <Icon name="user" size={20} color="black" />,
+          headerShown: false,
         }}
       />
       <Tab.Screen

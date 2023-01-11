@@ -1,5 +1,5 @@
 import firestore from '@react-native-firebase/firestore';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -25,22 +25,16 @@ const Product = ({navigation}) => {
   );
 
   // ------------------------ Search function ----------------------
-  const [search, setSearch] = useState('');
-  const [filteredDataSource, setFilteredDataSource] = useState([]);
-  const [masterDataSource, setMasterDataSource] = useState([]);
+  const [search, setSearch] = useState();
+  const [filteredDataSource, setFilteredDataSource] = useState(data);
+  const [masterDataSource, setMasterDataSource] = useState(data);
   useEffect(() => {
-    fetchProduct();
-  }, []);
-  const fetchProduct = useCallback(async () => {
-    try {
-      if (data) {
-        setFilteredDataSource(data);
-        setMasterDataSource(data);
-      }
-    } catch (error) {
-    } finally {
+    refresh();
+    if (data) {
+      setFilteredDataSource(data);
+      setMasterDataSource(data);
     }
-  }, []); // };
+  }, []);
 
   const searchFilterFunction = text => {
     if (text) {
@@ -105,9 +99,7 @@ const Product = ({navigation}) => {
   };
 
   // --------------- show data----------------------------
-  useEffect(() => {
-    refresh();
-  }, []);
+
   if (error) {
     return <Text>Error: {error.message}</Text>;
   }

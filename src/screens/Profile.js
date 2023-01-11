@@ -28,7 +28,7 @@ const Profile = ({navigation}) => {
   if (error) {
     return <Text>Error: {error.message}</Text>;
   }
-
+  console.log(data);
   return (
     <View style={styles.profile}>
       {data.map(item => (

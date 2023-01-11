@@ -6,6 +6,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 
 import MyButton from '../MyButton';
 import MyTextInput from '../MyTextInput';
+import {ScrollView} from 'react-native-gesture-handler';
 
 const UpdateProfile = ({navigation, route}) => {
   const {item} = route.params || {};
@@ -57,97 +58,101 @@ const UpdateProfile = ({navigation, route}) => {
       width: 400,
       height: 400,
       cropping: true,
-    }).then(image => {
+    }).then(async image => {
       const imageName = image.path.substring(image.path.lastIndexOf('/') + 1);
       const bucketFile = `images/${imageName}`;
       const pathToFile = image.path;
-      let reference = storage().ref(bucketFile);
-      let task = reference.putFile(pathToFile);
-      task
-        .then(() => {
+      const url = storage().ref(bucketFile);
+      await url
+        .putFile(pathToFile)
+        .then(async () => {
+          const imgUrl = await url.getDownloadURL();
           alert('Image uploaded to the bucket!');
-          onChangeImage(pathToFile);
+          console.log(' link 2: ', imgUrl);
+          onChangeImage(imgUrl);
         })
-        .catch(e => alert('Uploading image error => ', e));
+        .catch(e => console.log('uploading image error => ', e));
     });
   }
   return (
-    <View style={styles.profile}>
-      <View style={styles.part1Profile}></View>
-      <View style={styles.part2Profile}>
-        <Image
-          source={{
-            uri: `${isImage}`,
-          }}
-          style={{
-            height: 85,
-            width: 85,
-            borderRadius: 50,
-            alignSelf: 'center',
-            top: -35,
-            borderWidth: 4,
-            borderColor: 'white',
-          }}
-        />
-        <TouchableOpacity
-          onPress={() => {
-            choosePic();
-          }}>
-          <Text
-            style={{textAlign: 'center', fontWeight: '700', color: 'white'}}>
-            Change picture
-          </Text>
-        </TouchableOpacity>
-      </View>
-      <View style={{marginHorizontal: 15}}>
-        <View key={item.id}>
-          <View style={{marginBottom: 12}}>
-            <MyTextInput
-              onChangeText={setName}
-              value={name}
-              title="Name"
-              type="rounder"
-            />
-          </View>
-          <View style={{marginBottom: 12}}>
-            <MyTextInput
-              onChangeText={setAge}
-              value={String(age)}
-              title="Age"
-              type="rounder"
-            />
-          </View>
-          <View style={{marginBottom: 12}}>
-            <MyTextInput
-              onChangeText={setDOB}
-              value={dob}
-              title="Birthday"
-              type="rounder"
-            />
-          </View>
-          <View style={{marginBottom: 12}}>
-            <MyTextInput
-              onChangeText={setPhoneNumber}
-              value={phoneNumber}
-              title="Phone number"
-              type="rounder"
-            />
-          </View>
+    <ScrollView>
+      <View style={styles.profile}>
+        <View style={styles.part1Profile}></View>
+        <View style={styles.part2Profile}>
+          <Image
+            source={{
+              uri: `${isImage}`,
+            }}
+            style={{
+              height: 85,
+              width: 85,
+              borderRadius: 50,
+              alignSelf: 'center',
+              top: -35,
+              borderWidth: 4,
+              borderColor: 'white',
+            }}
+          />
+          <TouchableOpacity
+            onPress={() => {
+              choosePic();
+            }}>
+            <Text
+              style={{textAlign: 'center', fontWeight: '700', color: 'white'}}>
+              Change picture
+            </Text>
+          </TouchableOpacity>
         </View>
-        <MyButton
-          onPress={() => ButtonSave()}
-          lable="Update"
-          size="large"
-          extraStyle={{alignSelf: 'center', marginTop: 20}}
-        />
-        <MyButton
-          onPress={() => navigation.navigate('Profile')}
-          lable="Exit"
-          size="large"
-          extraStyle={{alignSelf: 'center', marginTop: 20}}
-        />
+        <View style={{marginHorizontal: 15}}>
+          <View key={item.id}>
+            <View style={{marginBottom: 12}}>
+              <MyTextInput
+                onChangeText={setName}
+                value={name}
+                title="Name"
+                type="rounder"
+              />
+            </View>
+            <View style={{marginBottom: 12}}>
+              <MyTextInput
+                onChangeText={setAge}
+                value={String(age)}
+                title="Age"
+                type="rounder"
+              />
+            </View>
+            <View style={{marginBottom: 12}}>
+              <MyTextInput
+                onChangeText={setDOB}
+                value={dob}
+                title="Birthday"
+                type="rounder"
+              />
+            </View>
+            <View style={{marginBottom: 12}}>
+              <MyTextInput
+                onChangeText={setPhoneNumber}
+                value={phoneNumber}
+                title="Phone number"
+                type="rounder"
+              />
+            </View>
+          </View>
+          <MyButton
+            onPress={() => ButtonSave()}
+            lable="Update"
+            size="large"
+            extraStyle={{alignSelf: 'center', marginTop: 20}}
+          />
+          <MyButton
+            onPress={() => navigation.navigate('Profile')}
+            lable="Exit"
+            size="large"
+            extraStyle={{alignSelf: 'center', marginTop: 20}}
+          />
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
