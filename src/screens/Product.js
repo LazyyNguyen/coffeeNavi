@@ -1,55 +1,68 @@
-import React, {useState} from 'react';
-import {FlatList, Image, StyleSheet, Text, TextInput, View} from 'react-native';
-import MyButton from '../components/MyButton';
+import firestore from '@react-native-firebase/firestore';
+import React, {useCallback, useEffect, useState} from 'react';
+import {
+  ActivityIndicator,
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {TextInput} from 'react-native-gesture-handler';
+import useFirestoreCollection from '../hooks/useFirestoreCollection';
 
-const Product = () => {
-  const [data, setData] = useState([
-    {
-      id: 1,
-      title: 'Naa Nii',
-      description: 'Followed by 15k',
-      price: '47',
-      image:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6wMUznmg4JxQZECDFV5z4e60ghw62ynKyBQ&usqp=CAU',
-    },
-    {
-      id: 2,
-      title: 'Naa Nii',
-      description: 'Followed by 15k',
-      price: '47',
-      image:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6wMUznmg4JxQZECDFV5z4e60ghw62ynKyBQ&usqp=CAU',
-    },
-    {
-      id: 2,
-      title: 'Naa Nii',
-      description: 'Followed by 15k',
-      price: '47',
-      image:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6wMUznmg4JxQZECDFV5z4e60ghw62ynKyBQ&usqp=CAU',
-    },
-    {
-      id: 2,
-      title: 'Naa Nii',
-      description: 'Followed by 15k',
-      price: '47',
-      image:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6wMUznmg4JxQZECDFV5z4e60ghw62ynKyBQ&usqp=CAU',
-    },
-  ]);
+// -----------------get data from firebase-------------------
+const collection = firestore().collection('Products');
+const pageSize = 10;
+const page = 1;
+
+const Product = ({navigation}) => {
+  const {data, loading, error, refresh} = useFirestoreCollection(
+    collection,
+    pageSize,
+    page,
+  );
+
   // ------------------------ Search function ----------------------
   const [search, setSearch] = useState('');
-  const searchFilterFunction = () => {
-    console.log('Search');
-  };
+  const [filteredDataSource, setFilteredDataSource] = useState([]);
+  const [masterDataSource, setMasterDataSource] = useState([]);
+  useEffect(() => {
+    fetchProduct();
+  }, []);
+  const fetchProduct = useCallback(async () => {
+    try {
+      if (data) {
+        setFilteredDataSource(data);
+        setMasterDataSource(data);
+      }
+    } catch (error) {
+    } finally {
+    }
+  }, []); // };
 
+  const searchFilterFunction = text => {
+    if (text) {
+      const newData = masterDataSource.filter(item => {
+        const itemData = item.name ? item.name.toUpperCase() : ''.toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setFilteredDataSource(newData);
+      setSearch(text);
+    } else {
+      setFilteredDataSource(masterDataSource);
+      setSearch(text);
+    }
+  };
   //--------------- Header ----------------------
-  const headerproduct = () => {
+  const headerproduct = ({item}) => {
     return (
       <View style={styles.header}>
         <TextInput
           style={styles.textInputStyle}
-          onChangeText={searchFilterFunction()}
+          onChangeText={text => searchFilterFunction(text)}
           value={search}
           underlineColorAndroid="transparent"
           placeholder="Search Here"
@@ -60,10 +73,11 @@ const Product = () => {
             <Text>25 product found</Text>
           </View>
           <View>
-            {/* <TouchableOpacity style={styles.buttonAdd}>
-              <Text>Press Here</Text>
-            </TouchableOpacity> */}
-            <MyButton type="base" size="small" lable="Add" />
+            <TouchableOpacity
+              style={styles.buttonAdd}
+              onPress={() => navigation.navigate('addNew', {item})}>
+              <Text style={{fontWeight: 'bold'}}>Add New</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -71,43 +85,53 @@ const Product = () => {
   };
 
   // ----------------------- List product ----------------------
-  const Item = ({image, title, description, price}) => {
+  const Item = ({item}) => {
     return (
-      <View style={styles.containerItem}>
+      <TouchableOpacity
+        style={styles.containerItem}
+        onPress={() => navigation.navigate('Detail', {item})}>
         <Image
           source={{
-            uri: `${image}`,
+            uri: `${item.img}`,
           }}
           style={styles.imageItem}
         />
         <View style={styles.bodyItem}>
-          <Text style={styles.titleItem}>{title}</Text>
-          <Text styles={styles.descriptionItem}>{description}</Text>
-          <Text style={styles.priceItems}>${price}</Text>
+          <Text style={styles.titleItem}>{item.name}</Text>
+          <Text style={styles.priceItems}>${item.price}</Text>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 
-  const renderItem = ({item}) => (
-    <Item
-      titile={item.title}
-      image={item.image}
-      description={item.description}
-      price={item.price}
-    />
-  );
+  // --------------- show data----------------------------
+  useEffect(() => {
+    refresh();
+  }, []);
+  if (error) {
+    return <Text>Error: {error.message}</Text>;
+  }
 
   return (
-    <View>
-      <FlatList
-        style={styles.container}
-        data={data}
-        ListHeaderComponent={headerproduct}
-        numColumns={2}
-        renderItem={renderItem}
-      />
-    </View>
+    <>
+      {loading ? (
+        <ActivityIndicator color="#00ff00" size="large" />
+      ) : (
+        <FlatList
+          style={styles.container}
+          data={filteredDataSource}
+          ListHeaderComponent={headerproduct}
+          showsVerticalScrollIndicator={false}
+          numColumns={2}
+          keyExtractor={item => item.id}
+          onRefresh={refresh}
+          renderItem={({item}) => {
+            return <Item item={item} />;
+          }}
+          refreshing={loading}
+        />
+      )}
+    </>
   );
 };
 
@@ -115,29 +139,30 @@ export default Product;
 
 const styles = StyleSheet.create({
   container: {
-    margin: 10,
+    backgroundColor: '#ffff',
   },
   containerItem: {
-    margin: 'auto',
-    fontFamily: 'TimenewRomant',
+    margin: 20,
     fontSize: 18,
-    justifyContent: 'center',
-    alignItems: 'center',
     flex: 1,
-    width: '40%',
-    marginTop: 10,
+    borderWidth: 0.5,
+    borderColor: 'thistle',
+    borderRadius: 15,
+    alignItems: 'center',
   },
   imageItem: {
     width: '90%',
     height: 120,
     borderRadius: 5,
-    padding: '5%',
+    margin: 7,
   },
   bodyItem: {
-    marginTop: 5,
+    marginBottom: 5,
+    alignItems: 'center',
   },
   titleItem: {
-    // fontWeight: 600,
+    fontWeight: 'bold',
+    fontSize: 20,
   },
   textInputStyle: {
     height: 40,
@@ -151,14 +176,13 @@ const styles = StyleSheet.create({
     marginLeft: '5%',
   },
   header: {
-    // margin: 0,
     padding: 0,
     width: '90%',
     marginLeft: '5%',
   },
   title: {
     fontSize: 28,
-    fontWeight: 'bold',
+    fontFamily: 'PPMonumentExtended-Black',
   },
   textHeader: {
     display: 'flex',
@@ -167,9 +191,13 @@ const styles = StyleSheet.create({
   },
   buttonAdd: {
     alignItems: 'center',
-    backgroundColor: '#DDDDDD',
+    backgroundColor: '#CCFF00',
     padding: 10,
     borderRadius: 10,
     width: 100,
+    marginTop: 7,
+  },
+  priceItems: {
+    fontWeight: 'bold',
   },
 });

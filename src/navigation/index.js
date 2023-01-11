@@ -3,38 +3,20 @@ import {NavigationContainer} from '@react-navigation/native';
 import * as React from 'react';
 import {Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
+import Product from '../screens/Product';
 
-import MyButton from '../components/MyButton';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import ChangePassword from '../components/EditProfile/ChangePassword';
+import UpdateProfile from '../components/EditProfile/UpdateProfile';
 import Loading from '../components/Loading';
-import Main from '../components/signIn/Main';
-import SignUp from '../components/signIn/SignUp';
 import Login from '../components/signIn/Login';
-function Feed() {
-  return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>Feed!</Text>
-      <MyTextInput
-        title="UserName"
-        type="rounder"
-        placeholder="Enter Your ..."
-      />
-      <MyTextInput
-        title="UserName"
-        type="rounder"
-        placeholder="Enter Your ..."
-      />
-      <MyButton size="large" lable="Login" />
-    </View>
-  );
-}
+import SignUp from '../components/signIn/SignUp';
+import CreateProduct from '../screens/CreateProduct';
+import Home from '../screens/Home';
+import Details from '../screens/ProductDetails';
+import Profile from '../screens/Profile';
+import UpdateProduct from '../screens/UpdateProduct';
 
-function Profile() {
-  return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>Profile!</Text>
-    </View>
-  );
-}
 function ManagementRevenue() {
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
@@ -49,13 +31,6 @@ function ManagementProduct() {
     </View>
   );
 }
-// function Products() {
-//   return (
-//     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-//       <Text>Products!</Text>
-//     </View>
-//   );
-// }
 
 const Tab = createBottomTabNavigator();
 function MyTabs() {
@@ -64,13 +39,15 @@ function MyTabs() {
       initialRouteName="Loading"
       screenOptions={{
         tabBarActiveTintColor: '#e91e63',
+        tabBarShowLabel: false,
       }}>
       <Tab.Screen
-        name="Feed"
-        component={Feed}
+        name="Home"
+        component={Home}
         options={{
-          tabBarLabel: 'Home',
-          tabBarIcon: () => <Icon name="home" size={20} />,
+          headerShown: false,
+
+          tabBarIcon: () => <Icon name="home" size={20} color="black" />,
         }}
       />
       <Tab.Screen
@@ -78,7 +55,7 @@ function MyTabs() {
         component={ManagementRevenue}
         options={{
           tabBarLabel: 'Revenue',
-          tabBarIcon: () => <Icon name="tag" size={20} />,
+          tabBarIcon: () => <Icon name="tag" size={20} color="black" />,
         }}
       />
       <Tab.Screen
@@ -87,7 +64,7 @@ function MyTabs() {
         options={{
           headerShown: false,
           tabBarLabel: 'Updates',
-          tabBarIcon: () => <Icon name="coffee" size={20} />,
+          tabBarIcon: () => <Icon name="coffee" size={20} color="black" />,
         }}
       />
       <Tab.Screen
@@ -95,7 +72,7 @@ function MyTabs() {
         component={ManagementProduct}
         options={{
           tabBarLabel: 'Management',
-          tabBarIcon: () => <Icon name="list" size={20} />,
+          tabBarIcon: () => <Icon name="list" size={20} color="black" />,
         }}
       />
       <Tab.Screen
@@ -103,19 +80,12 @@ function MyTabs() {
         component={Profile}
         options={{
           tabBarLabel: 'Profile',
-          tabBarIcon: () => <Icon name="user" size={20} />,
+          tabBarIcon: () => <Icon name="user" size={20} color="black" />,
         }}
       />
       <Tab.Screen
         name="Loading"
         component={Loading}
-        options={{
-          tabBarButton: props => null, //like this
-        }}
-      />
-      <Tab.Screen
-        name="Main"
-        component={Main}
         options={{
           tabBarButton: props => null, //like this
         }}
@@ -141,11 +111,23 @@ function MyTabs() {
     </Tab.Navigator>
   );
 }
+const Stack = createNativeStackNavigator();
 
 export default function Navigation() {
   return (
     <NavigationContainer>
-      <MyTabs />
+      <Stack.Navigator
+        initialRouteName="Tab"
+        screenOptions={{
+          headerShown: false,
+        }}>
+        <Stack.Screen name="Tab" component={MyTabs} />
+        <Stack.Screen name="Detail" component={Details} />
+        <Stack.Screen name="addNew" component={CreateProduct} />
+        <Stack.Screen name="productUpdate" component={UpdateProduct} />
+        <Stack.Screen name="UpdateProfile" component={UpdateProfile} />
+        <Stack.Screen name="ChangePassword" component={ChangePassword} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }

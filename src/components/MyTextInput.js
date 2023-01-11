@@ -1,9 +1,10 @@
 import React from 'react';
 import {StyleSheet, Text, TextInput, View} from 'react-native';
+import {Width} from '../assets/ScreenDimensions';
 
 const TYPES = ['base', 'rounder'];
 
-const MyTextInput = ({placeholder, type, onChangeText, title}) => {
+const MyTextInput = ({placeholder, type, onChangeText, title, value}) => {
   const inputType = TYPES.includes(type) ? type : 'base';
   const inputStyle = {
     height: 50,
@@ -20,6 +21,7 @@ const MyTextInput = ({placeholder, type, onChangeText, title}) => {
         <Text style={styles.title}>{title}</Text>
       </View>
       <TextInput
+        value={value}
         onChangeText={onChangeText}
         placeholderTextColor="#7C7A7A"
         placeholder={placeholder}
@@ -33,7 +35,7 @@ export default MyTextInput;
 
 const styles = StyleSheet.create({
   component: {
-    // width: Width - 30,
+    width: Width - 30,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
