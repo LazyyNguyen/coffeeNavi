@@ -22,6 +22,7 @@ const avt =
 import TopItem from '../components/TopItem';
 import FlatListSlide from '../containers/FlatListSlide';
 import FLatListTopItem from '../containers/FLatListTopItem';
+import FlatListPercent from '../containers/FlatListPercent';
 
 const Home = () => {
   return (
@@ -41,16 +42,7 @@ const Home = () => {
           <FLatListTopItem />
         </View>
       </View>
-      <View style={styles.thuchi}>
-        <View style={styles.itemThuchi}>
-          <Text style={styles.titleTc}>Income</Text>
-          <Text style={styles.total}>VND 2001500</Text>
-        </View>
-        <View style={styles.itemThuchi}>
-          <Text style={styles.titleTc}>Outcome</Text>
-          <Text style={styles.total}>VND 55500</Text>
-        </View>
-      </View>
+      <FlatListPercent />
     </View>
   );
 };
@@ -102,31 +94,5 @@ const styles = StyleSheet.create({
   },
   trending: {
     // paddingVertical: 10,
-  },
-  thuchi: {
-    width: '100%',
-    height: 90,
-    display: 'flex',
-    alignContent: 'center',
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    // backgroundColor:
-  },
-  itemThuchi: {
-    width: '47%',
-    height: '100%',
-    backgroundColor: '#CCFF00',
-    opacity: 0.7,
-    borderRadius: 15,
-    padding: 10,
-  },
-  titleTc: {
-    fontFamily: 'PPMonumentExtended-Regular',
-    color: '#000000',
-    fontSize: 15,
-  },
-  total: {
-    fontFamily: 'PPMonumentExtended-Black',
-    color: '#000000',
   },
 });

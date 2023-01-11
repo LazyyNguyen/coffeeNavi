@@ -12,25 +12,77 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Width, Height} from '../assets/ScreenDimensions';
+import firestore from '@react-native-firebase/firestore';
 
+const SlideItem = ({type}) => {
+  const [amount, setAmount] = useState(null);
+  let data;
+  switch (type) {
+    case 'user':
+      data = {
+        title: 'User',
+        isMoney: false,
+        query: 'Users',
+      };
+      break;
+    case 'order':
+      data = {
+        title: 'Order',
+        isMoney: false,
+        query: 'Orders',
+      };
+      break;
+    case 'sell':
+      data = {
+        title: 'Sell',
+        isMoney: true,
+        query: 'Orders',
+      };
+      break;
+    case 'product':
+      data = {
+        title: 'Product',
+        query: 'Products',
+      };
+      break;
+    default:
+      break;
+  }
 
-const SlideItem = ({data}) => {
+  useEffect(() => {
+    const fetchData = () => {
+      const collection = firestore().collection(data.query);
+      return collection.onSnapshot(querySnapshot => {
+        const list = [];
+        querySnapshot.forEach(doc => {
+          list.push(doc.data());
+        });
+        if (data.title === 'Sell') {
+          const total = list.reduce((prev, curr) => prev + curr.total, 0);
+          setAmount(total.toLocaleString());
+          return;
+        }
+        setAmount(list.length);
+      });
+    };
+    fetchData();
+  }, []);
   return (
     <View style={styles.container}>
       <Image style={styles.img} source={require('../assets/imgs/image3.png')} />
       <View style={styles.totalContainer}>
         <Text style={styles.total}>
-          {data.title === 'Sells'
+          {type === 'sell'
             ? 'VND'
-            : data.title === 'Order'
+            : type === 'order'
             ? 'Order'
-            : data.title === 'Product'
+            : type === 'product'
             ? 'Product'
             : 'User'}
         </Text>
-        <Text style={styles.total}>{data.total}</Text>
+        <Text style={styles.total}>{amount}</Text>
       </View>
       <Text style={styles.title}>{data.title}</Text>
     </View>
