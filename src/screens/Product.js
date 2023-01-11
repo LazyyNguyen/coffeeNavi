@@ -1,5 +1,5 @@
 import firestore from '@react-native-firebase/firestore';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -18,39 +18,18 @@ const pageSize = 10;
 const page = 1;
 
 const Product = ({navigation}) => {
-  const {data, loading, error, refresh} = useFirestoreCollection(
-    collection,
-    pageSize,
-    page,
-  );
+  const {
+    data,
+    loading,
+    error,
+    refresh,
+    searchFilterFunction,
+    search,
+    filteredDataSource,
+  } = useFirestoreCollection(collection, pageSize, page);
 
-  // ------------------------ Search function ----------------------
-  const [search, setSearch] = useState();
-  const [filteredDataSource, setFilteredDataSource] = useState(data);
-  const [masterDataSource, setMasterDataSource] = useState(data);
-  useEffect(() => {
-    refresh();
-    if (data) {
-      setFilteredDataSource(data);
-      setMasterDataSource(data);
-    }
-  }, []);
-
-  const searchFilterFunction = text => {
-    if (text) {
-      const newData = masterDataSource.filter(item => {
-        const itemData = item.name ? item.name.toUpperCase() : ''.toUpperCase();
-        const textData = text.toUpperCase();
-        return itemData.indexOf(textData) > -1;
-      });
-      setFilteredDataSource(newData);
-      setSearch(text);
-    } else {
-      setFilteredDataSource(masterDataSource);
-      setSearch(text);
-    }
-  };
   //--------------- Header ----------------------
+  console.log(filteredDataSource);
   const headerproduct = ({item}) => {
     return (
       <View style={styles.header}>
@@ -111,7 +90,7 @@ const Product = ({navigation}) => {
       ) : (
         <FlatList
           style={styles.container}
-          data={filteredDataSource}
+          data={filteredDataSource || data}
           ListHeaderComponent={headerproduct}
           showsVerticalScrollIndicator={false}
           numColumns={2}
