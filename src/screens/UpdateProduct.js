@@ -61,21 +61,24 @@ const UpdateProduct = ({navigation, route}) => {
       width: 400,
       height: 400,
       cropping: true,
-    }).then(image => {
+    }).then(async image => {
       const imageName = image.path.substring(image.path.lastIndexOf('/') + 1);
       const bucketFile = `images/${imageName}`;
       const pathToFile = image.path;
-      console.log('link ở đây nèeeee', pathToFile);
-      let reference = storage().ref(bucketFile);
-      let task = reference.putFile(pathToFile);
-      task
-        .then(() => {
-          console.log('Image uploaded to the bucket!');
-          onChangeImage(pathToFile);
+      console.log('link', pathToFile);
+      const url = storage().ref(bucketFile);
+      await url
+        .putFile(pathToFile)
+        .then(async () => {
+          const imgUrl = await url.getDownloadURL();
+          alert('Image uploaded to the bucket!');
+          console.log(' link 2: ', imgUrl);
+          onChangeImage(imgUrl);
         })
         .catch(e => console.log('uploading image error => ', e));
     });
   }
+
   return (
     <View style={styles.container}>
       <View style={styles.headerAdd}>

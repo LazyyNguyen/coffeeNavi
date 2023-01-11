@@ -52,21 +52,40 @@ const CreateProduct = ({navigation}) => {
       width: 400,
       height: 400,
       cropping: true,
-    }).then(image => {
+    }).then(async image => {
       const imageName = image.path.substring(image.path.lastIndexOf('/') + 1);
       const bucketFile = `images/${imageName}`;
       const pathToFile = image.path;
       console.log('link', pathToFile);
-      let reference = storage().ref(bucketFile);
-      let task = reference.putFile(pathToFile);
-      task
-        .then(() => {
+      const url = storage().ref(bucketFile);
+      await url
+        .putFile(pathToFile)
+        .then(async () => {
+          const imgUrl = await url.getDownloadURL();
           alert('Image uploaded to the bucket!');
-          setImage(pathToFile);
+          console.log(' link 2: ', imgUrl);
+          setImage(imgUrl);
         })
         .catch(e => console.log('uploading image error => ', e));
     });
   }
+
+  // .then(async () => {
+  //   await url
+  //     .putFile(pathToFile)
+  //     .getDownloadURL()
+  //     .then(() => {
+  //
+  //       console.log('link 2', url);
+  //     })
+  //
+  // });
+
+  // const reference = storage().ref(pathToSave);
+  // await reference.putFile(pathToFile).then(async () => {
+  //   imgUrl = await reference.getDownloadURL();
+  // });
+  // return imgUrl;
 
   return (
     <View style={styles.container}>
