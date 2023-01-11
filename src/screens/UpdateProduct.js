@@ -19,7 +19,7 @@ const UpdateProduct = ({navigation, route}) => {
   const [textName, onChangeNameText] = useState(item.name);
   const [textDescription, onChangeDescriptionText] = useState(item.description);
   const [textPrice, onChangePriceText] = useState(item.price);
-  const [isImage, onChangeImage] = useState(item.image);
+  const [isImage, onChangeImage] = useState(item.img);
   const [textCategories, onChangeCategoriesText] = useState(item.category);
 
   async function updateItem() {
@@ -65,7 +65,7 @@ const UpdateProduct = ({navigation, route}) => {
       const imageName = image.path.substring(image.path.lastIndexOf('/') + 1);
       const bucketFile = `images/${imageName}`;
       const pathToFile = image.path;
-      // console.log('link ở đây nèeeee', pathToFile);
+      console.log('link ở đây nèeeee', pathToFile);
       let reference = storage().ref(bucketFile);
       let task = reference.putFile(pathToFile);
       task
@@ -85,8 +85,9 @@ const UpdateProduct = ({navigation, route}) => {
       <TouchableOpacity>
         <Image
           source={{
-            uri: `${item.img}`,
+            uri: `${isImage}`,
           }}
+          value={isImage}
           style={styles.imageAdd}
         />
         <MyButton
