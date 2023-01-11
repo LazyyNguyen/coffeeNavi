@@ -1,5 +1,5 @@
 import firestore from '@react-native-firebase/firestore';
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -27,23 +27,50 @@ const Product = ({navigation}) => {
   // ------------------------ Search function ----------------------
   const [search, setSearch] = useState('');
   const [filteredDataSource, setFilteredDataSource] = useState([]);
-  const searchFilterFunction = text => {
-    console.log(data);
-    if (text !== '') {
-      const datasearched = data.filter(item =>
-        item.name
-          .toUpperCase()
-          .includes(text.toUpperCase().trim().replace(/\s/g, '')),
-      );
-      setData(datasearched);
-      console.log(data);
-    } else {
-      setFilteredDataSource(data);
-      console.log('first');
+  const [masterDataSource, setMasterDataSource] = useState([]);
+  // const searchFilterFunction = text => {
+  //   console.log(data);
+  //   if (text !== '') {
+  //     const datasearched = data.filter(item =>
+  //       item.name
+  //         .toUpperCase()
+  //         .includes(text.toUpperCase().trim().replace(/\s/g, '')),
+  //     );
+  //     setData(datasearched);
+  //     console.log(data);
+  //   } else {
+  //     setFilteredDataSource(data);
+  //     console.log('first');
+  //   }
+  //   setSearch(text);
+  useEffect(() => {
+    fetchProduct();
+  }, []);
+  const fetchProduct = useCallback(async () => {
+    try {
+      if (data) {
+        setFilteredDataSource(data);
+        setMasterDataSource(data);
+      }
+    } catch (error) {
+    } finally {
     }
-    setSearch(text);
-  };
+  }, []); // };
 
+  const searchFilterFunction = text => {
+    if (text) {
+      const newData = masterDataSource.filter(item => {
+        const itemData = item.name ? item.name.toUpperCase() : ''.toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setFilteredDataSource(newData);
+      setSearch(text);
+    } else {
+      setFilteredDataSource(masterDataSource);
+      setSearch(text);
+    }
+  };
   //--------------- Header ----------------------
   const headerproduct = ({item}) => {
     return (
@@ -52,6 +79,7 @@ const Product = ({navigation}) => {
           style={styles.textInputStyle}
           onChangeText={text => searchFilterFunction(text)}
           value={search}
+          underlineColorAndroid="transparent"
           placeholder="Search Here"
         />
         <View style={styles.textHeader}>
@@ -106,7 +134,7 @@ const Product = ({navigation}) => {
       ) : (
         <FlatList
           style={styles.container}
-          data={data}
+          data={filteredDataSource}
           ListHeaderComponent={headerproduct}
           showsVerticalScrollIndicator={false}
           numColumns={2}
