@@ -71,7 +71,9 @@ const Product = ({navigation}) => {
         />
         <View style={styles.bodyItem}>
           <Text style={styles.titleItem}>{item.name}</Text>
-          <Text style={styles.priceItems}>${item.price}</Text>
+          <Text style={styles.priceItems}>
+            {item.price.toLocaleString(undefined, {minimumFractionDigits: 2})}₫
+          </Text>
         </View>
       </TouchableOpacity>
     );

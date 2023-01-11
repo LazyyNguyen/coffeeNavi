@@ -1,10 +1,28 @@
-import React from 'react';
+import auth from '@react-native-firebase/auth';
+import React, {useState} from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 import MyButton from '../MyButton';
 import MyTextInput from '../MyTextInput';
+import {handleLogout} from '../../screens/Profile';
 
 const ChangePassword = ({navigation, route}) => {
+  const [email, setEmail] = useState();
+  const sendMail = () => {
+    auth()
+      .sendPasswordResetEmail(email)
+      .then(() => {
+        alert('Check your email to reset password!');
+        handleLogout();
+        navigation.navigate('Login');
+      })
+      .catch(error => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ..
+      });
+  };
+
   const {item} = route.params || {};
   return (
     <View style={styles.profile}>
@@ -35,16 +53,16 @@ const ChangePassword = ({navigation, route}) => {
         <View key={item.id}>
           <View style={{marginBottom: 12, marginTop: 20}}>
             <MyTextInput
-              // onChangeText={setName}
-              // value={name}
-              title="Current Password"
+              onChangeText={setEmail}
+              value={email}
+              title="Email"
               type="rounder"
             />
           </View>
         </View>
         <MyButton
-          // onPress={() => ButtonSave()}
-          lable="Update"
+          onPress={() => sendMail()}
+          lable="Send"
           size="large"
           extraStyle={{alignSelf: 'center', marginTop: 20}}
         />

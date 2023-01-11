@@ -4,10 +4,30 @@ import React, {useState} from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 
+import {ScrollView} from 'react-native-gesture-handler';
 import MyButton from '../MyButton';
 import MyTextInput from '../MyTextInput';
-import {ScrollView} from 'react-native-gesture-handler';
-
+export function choosePic() {
+  ImagePicker.openPicker({
+    width: 400,
+    height: 400,
+    cropping: true,
+  }).then(async image => {
+    const imageName = image.path.substring(image.path.lastIndexOf('/') + 1);
+    const bucketFile = `images/${imageName}`;
+    const pathToFile = image.path;
+    const url = storage().ref(bucketFile);
+    await url
+      .putFile(pathToFile)
+      .then(async () => {
+        const imgUrl = await url.getDownloadURL();
+        alert('Image uploaded to the bucket!');
+        console.log(' link 2: ', imgUrl);
+        onChangeImage(imgUrl);
+      })
+      .catch(e => console.log('uploading image error => ', e));
+  });
+}
 const UpdateProfile = ({navigation, route}) => {
   const {item} = route.params || {};
 
@@ -30,9 +50,8 @@ const UpdateProfile = ({navigation, route}) => {
           phoneNumber: phoneNumber,
         });
       if (result) {
-        console.log('vao day');
-        navigation.navigate('Profile');
         alert('Update Profile Successfully!');
+        navigation.goBack();
       }
     } catch (error) {
       alert(error.message);
@@ -53,27 +72,7 @@ const UpdateProfile = ({navigation, route}) => {
   }
 
   // --------------choose image--------------------------
-  function choosePic() {
-    ImagePicker.openPicker({
-      width: 400,
-      height: 400,
-      cropping: true,
-    }).then(async image => {
-      const imageName = image.path.substring(image.path.lastIndexOf('/') + 1);
-      const bucketFile = `images/${imageName}`;
-      const pathToFile = image.path;
-      const url = storage().ref(bucketFile);
-      await url
-        .putFile(pathToFile)
-        .then(async () => {
-          const imgUrl = await url.getDownloadURL();
-          alert('Image uploaded to the bucket!');
-          console.log(' link 2: ', imgUrl);
-          onChangeImage(imgUrl);
-        })
-        .catch(e => console.log('uploading image error => ', e));
-    });
-  }
+
   return (
     <ScrollView>
       <View style={styles.profile}>

@@ -84,7 +84,12 @@ const UpdateProduct = ({navigation, route}) => {
         <Icon name="arrow-back-ios" size={30} onPress={navigation.goBack} />
         <Text style={styles.titleAdd}>Update Product</Text>
       </View>
-      <TouchableOpacity>
+      <TouchableOpacity
+        style={{
+          flexDirection: 'row',
+          marginTop: 20,
+          justifyContent: 'space-between',
+        }}>
         <Image
           source={{
             uri: `${isImage}`,
@@ -93,6 +98,14 @@ const UpdateProduct = ({navigation, route}) => {
           style={styles.imageAdd}
         />
         <MyButton
+          extraStyle={{
+            alignItems: 'center',
+            backgroundColor: '#111',
+            padding: 10,
+            borderRadius: 10,
+            width: 120,
+            marginTop: 20,
+          }}
           onPress={() => {
             choosePic();
           }}
@@ -104,7 +117,10 @@ const UpdateProduct = ({navigation, route}) => {
         onChangeText={onChangeDescriptionText}
         value={textDescription}
       />
-      <MyTextInput onChangeText={onChangePriceText} value={textPrice} />
+      <MyTextInput
+        onChangeText={onChangePriceText}
+        value={textPrice.toLocaleString(undefined, {minimumFractionDigits: 2})}
+      />
       <MyTextInput
         onChangeText={onChangeCategoriesText}
         value={textCategories}
@@ -117,7 +133,8 @@ const UpdateProduct = ({navigation, route}) => {
 };
 const styles = StyleSheet.create({
   container: {
-    margin: 10,
+    marginHorizontal: 15,
+    marginVertical: 15,
   },
   buttonSave: {
     marginVertical: 30,

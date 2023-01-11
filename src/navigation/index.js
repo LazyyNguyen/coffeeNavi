@@ -98,17 +98,6 @@ function MyTabs() {
           tabBarButton: props => null, //like this
         }}
       />
-      <Tab.Screen
-        name="Login"
-        component={Login}
-        options={{
-          tabBarLabel: () => {
-            return null;
-          },
-          tabBarButton: props => null, //like this
-          headerShown: false,
-        }}
-      />
     </Tab.Navigator>
   );
 }
@@ -128,6 +117,7 @@ export default function Navigation() {
         <Stack.Screen name="productUpdate" component={UpdateProduct} />
         <Stack.Screen name="UpdateProfile" component={UpdateProfile} />
         <Stack.Screen name="ChangePassword" component={ChangePassword} />
+        <Stack.Screen name="Login" component={Login} />
       </Stack.Navigator>
     </NavigationContainer>
   );
