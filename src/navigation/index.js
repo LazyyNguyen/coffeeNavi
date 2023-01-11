@@ -3,7 +3,6 @@ import {NavigationContainer} from '@react-navigation/native';
 import * as React from 'react';
 import {Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
-import Product from '../screens/Product';
 
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import ChangePassword from '../components/EditProfile/ChangePassword';
@@ -16,6 +15,7 @@ import Home from '../screens/Home';
 import Details from '../screens/ProductDetails';
 import Profile from '../screens/Profile';
 import UpdateProduct from '../screens/UpdateProduct';
+import Product from '../screens/Product';
 
 function ManagementRevenue() {
   return (
