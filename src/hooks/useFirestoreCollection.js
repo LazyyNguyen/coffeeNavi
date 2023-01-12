@@ -1,5 +1,7 @@
+import storage from '@react-native-firebase/storage';
 import {useEffect, useState} from 'react';
 import {StyleSheet} from 'react-native';
+import ImagePicker from 'react-native-image-crop-picker';
 function useFirestoreCollection(collection, pageSize, page) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -9,6 +11,8 @@ function useFirestoreCollection(collection, pageSize, page) {
   const [queryError, setQueryError] = useState(null);
   const [search, setSearch] = useState();
   const [filteredDataSource, setFilteredDataSource] = useState();
+  const [isImage, onChangeImage] = useState();
+
   useEffect(() => {
     let unsubscribe;
     if (query) {
@@ -116,7 +120,27 @@ function useFirestoreCollection(collection, pageSize, page) {
   function setCollectionQuery(newQuery) {
     setQuery(newQuery);
   }
-
+  function choosePic() {
+    ImagePicker.openPicker({
+      width: 400,
+      height: 400,
+      cropping: true,
+    }).then(async image => {
+      const imageName = image.path.substring(image.path.lastIndexOf('/') + 1);
+      const bucketFile = `images/${imageName}`;
+      const pathToFile = image.path;
+      const url = storage().ref(bucketFile);
+      await url
+        .putFile(pathToFile)
+        .then(async () => {
+          const imgUrl = await url.getDownloadURL();
+          alert('Image uploaded to the bucket!');
+          console.log(' link 2: ', imgUrl);
+          onChangeImage(imgUrl);
+        })
+        .catch(e => console.log('uploading image error => ', e));
+    });
+  }
   return {
     data,
     loading,
@@ -129,6 +153,9 @@ function useFirestoreCollection(collection, pageSize, page) {
     searchFilterFunction,
     search,
     filteredDataSource,
+    isImage,
+    onChangeImage,
+    choosePic,
   };
 }
 

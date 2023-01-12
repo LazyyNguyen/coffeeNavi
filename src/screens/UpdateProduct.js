@@ -126,7 +126,7 @@ const UpdateProduct = ({navigation, route}) => {
         value={textCategories}
       />
       <Pressable style={styles.buttonSave} onPress={() => ButtonSave()}>
-        <Text style={styles.textButton}>SUBMIT</Text>
+        <Text style={styles.textButton}>UPDATE</Text>
       </Pressable>
     </View>
   );

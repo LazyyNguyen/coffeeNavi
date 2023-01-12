@@ -103,7 +103,7 @@ const CreateProduct = ({navigation}) => {
         placeholder="Enter categories"
       />
       <Pressable style={styles.buttonSave} onPress={() => ButtonSave()}>
-        <Text style={styles.textButton}>SAVE USER</Text>
+        <Text style={styles.textButton}>ADD ITEM</Text>
       </Pressable>
     </View>
   );

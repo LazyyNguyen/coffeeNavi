@@ -6,7 +6,6 @@ import IconFeature from 'react-native-vector-icons/Feather';
 import Icon from 'react-native-vector-icons/Ionicons';
 import useFirestoreCollection from '../hooks/useFirestoreCollection';
 
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import MyButton from '../components/MyButton';
 export const handleLogout = () => {
   auth()
@@ -55,28 +54,18 @@ const Profile = ({navigation}) => {
                 borderColor: 'white',
               }}
             />
-            <TouchableOpacity
-              onPress={handleLogout}
+            <Text
               style={{
-                alignSelf: 'center',
-                // top: -25,
-                // height: 125,
-                marginTop: 10,
-                width: 65,
-                padding: 5,
-                // backgroundColor: '#FFFFFF50',
-                // borderRadius: 100,
+                textAlign: 'center',
+                paddingTop: 40,
+                fontSize: 18,
+                fontWeight: '500',
+              }}
+              onPress={() => {
+                handleLogout();
               }}>
-              <Text
-                style={{
-                  fontWeight: '700',
-                  marginTop: 25,
-                  textAlign: 'center',
-                  opacity: 1,
-                }}>
-                Log out
-              </Text>
-            </TouchableOpacity>
+              Log out
+            </Text>
           </View>
           <View style={{marginHorizontal: 15}}>
             <Text style={{fontWeight: '700', fontSize: 18, marginBottom: 20}}>

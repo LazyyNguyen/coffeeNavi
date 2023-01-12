@@ -1,33 +1,15 @@
 import firestore from '@react-native-firebase/firestore';
-import storage from '@react-native-firebase/storage';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import ImagePicker from 'react-native-image-crop-picker';
 
 import {ScrollView} from 'react-native-gesture-handler';
+import useFirestoreCollection from '../../hooks/useFirestoreCollection';
 import MyButton from '../MyButton';
 import MyTextInput from '../MyTextInput';
-export function choosePic() {
-  ImagePicker.openPicker({
-    width: 400,
-    height: 400,
-    cropping: true,
-  }).then(async image => {
-    const imageName = image.path.substring(image.path.lastIndexOf('/') + 1);
-    const bucketFile = `images/${imageName}`;
-    const pathToFile = image.path;
-    const url = storage().ref(bucketFile);
-    await url
-      .putFile(pathToFile)
-      .then(async () => {
-        const imgUrl = await url.getDownloadURL();
-        alert('Image uploaded to the bucket!');
-        console.log(' link 2: ', imgUrl);
-        onChangeImage(imgUrl);
-      })
-      .catch(e => console.log('uploading image error => ', e));
-  });
-}
+
+const collection = firestore().collection('profile');
+const pageSize = 10;
+const page = 10;
 const UpdateProfile = ({navigation, route}) => {
   const {item} = route.params || {};
 
@@ -35,8 +17,21 @@ const UpdateProfile = ({navigation, route}) => {
   const [age, setAge] = useState(item.age);
   const [dob, setDOB] = useState(item.dob);
   const [phoneNumber, setPhoneNumber] = useState(item.phoneNumber);
-  const [isImage, onChangeImage] = useState(item.image);
+  const {data, loading, error, refresh, isImage, onChangeImage, choosePic} =
+    useFirestoreCollection(collection, pageSize, page);
 
+  useEffect(() => {
+    refresh();
+    onChangeImage(item.image);
+  }, []);
+  console.log('isImage', isImage);
+  if (loading) {
+    return <Text>Loading...</Text>;
+  }
+
+  if (error) {
+    return <Text>Error: {error.message}</Text>;
+  }
   async function updateItem() {
     try {
       const result = await firestore()
@@ -70,7 +65,27 @@ const UpdateProfile = ({navigation, route}) => {
     }
     updateItem();
   }
-
+  // function choosePic() {
+  //   ImagePicker.openPicker({
+  //     width: 400,
+  //     height: 400,
+  //     cropping: true,
+  //   }).then(async image => {
+  //     const imageName = image.path.substring(image.path.lastIndexOf('/') + 1);
+  //     const bucketFile = `images/${imageName}`;
+  //     const pathToFile = image.path;
+  //     const url = storage().ref(bucketFile);
+  //     await url
+  //       .putFile(pathToFile)
+  //       .then(async () => {
+  //         const imgUrl = await url.getDownloadURL();
+  //         alert('Image uploaded to the bucket!');
+  //         console.log(' link 2: ', imgUrl);
+  //         onChangeImage(imgUrl);
+  //       })
+  //       .catch(e => console.log('uploading image error => ', e));
+  //   });
+  // }
   // --------------choose image--------------------------
 
   return (
